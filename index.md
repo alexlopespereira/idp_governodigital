@@ -62,12 +62,14 @@ Slides das aulas em PDF.
 
 | Aula | Tema | Material |
 |------|------|----------|
+| Aula 1 | (em breve) | [PDF](pdfs/aula01.pdf) |
 | Aula 2 | (em breve) | [PDF](pdfs/aula02.pdf) |
 | Aula 3 | (em breve) | [PDF](pdfs/aula03.pdf) |
-| Aula 6 | Aula prática | [PDF](pdfs/aula06-pratica.pdf) |
+| Aula 4 | (em breve) | [PDF](pdfs/aula04.pdf) |
+| Aula 5 | (em breve) | [PDF](pdfs/aula05.pdf) |
+| Aula 6 | Aula prática | [PDF](pdfs/aula06.pdf) |
+| Aula 7 | (em breve) | [PDF](pdfs/aula07.pdf) |
 | Aula 8 | (em breve) | [PDF](pdfs/aula08.pdf) |
-
-> Os PDFs das demais aulas serão adicionados em breve.
 
 ---
 
