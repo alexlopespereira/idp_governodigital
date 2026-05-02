@@ -1,0 +1,17 @@
+title: IDP - Transformação Digital no Governo
+description: Materiais do curso, projetos finais e trabalhos dos alunos
+theme: jekyll-theme-cayman
+show_downloads: false
+plugins:
+  - jekyll-relative-links
+  - jekyll-seo-tag
+relative_links:
+  enabled: true
+  collections: true
+include:
+  - CONTRIBUTING.md
+  - README.md
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor
