@@ -42,3 +42,12 @@ criterios:
     check: github.repo.name_matches
     args:
       pattern: meu-primeiro-repo
+perguntas:
+  - texto: "O que você entendeu dos comandos que acabou de executar?"
+    criterios_avaliacao: |
+      Resposta deve demonstrar compreensão básica de pelo menos 2 dos comandos
+      principais (git init, git add, git commit, git push) e explicar com palavras
+      próprias o que cada comando citado faz. Aceitar respostas em linguagem
+      informal; rejeitar respostas evasivas (ex: "fiz o exercício") ou copy-paste
+      do enunciado.
+    peso: 10

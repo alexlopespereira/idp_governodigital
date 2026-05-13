@@ -28,3 +28,12 @@ criterios:
   - id: gh_repo_view_ok
     peso: 15
     check: evidence.shell.gh_repo_view_ok
+perguntas:
+  - texto: "O que você entendeu dos comandos que acabou de executar?"
+    criterios_avaliacao: |
+      Resposta deve demonstrar compreensão de pelo menos 2 dos comandos do gh CLI
+      usados no exercício (gh auth login, gh repo view, gh pr create, etc.) e
+      explicar com palavras próprias o que cada comando citado faz. Aceitar
+      respostas em linguagem informal; rejeitar respostas evasivas ou copy-paste
+      do enunciado.
+    peso: 10
