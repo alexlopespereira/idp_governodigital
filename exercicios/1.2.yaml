@@ -1,0 +1,30 @@
+exercicio: "1.2"
+titulo: "GitHub CLI"
+turmas:
+  - TD-2026-01
+  - MBA-IDP-2026
+disponivel_a_partir_de: 2026-03-17T08:00:00-03:00
+prazo:
+  recomendado_ate: 2026-03-24T23:59:59-03:00
+criterios:
+  - id: repo_publico
+    peso: 20
+    check: github.repo.public
+  - id: pelo_menos_1_pr
+    peso: 20
+    check: github.pr.count
+    args:
+      state: all
+      min: 1
+  - id: pr_titulo_descritivo
+    peso: 20
+    check: github.pr.has_descriptive_title
+  - id: gh_authenticated
+    peso: 15
+    check: evidence.shell.gh_auth_ok
+  - id: gh_version_capturado
+    peso: 10
+    check: evidence.shell.gh_version_present
+  - id: gh_repo_view_ok
+    peso: 15
+    check: evidence.shell.gh_repo_view_ok
