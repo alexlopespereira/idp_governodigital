@@ -12,19 +12,14 @@ criterios:
   - id: repo_publico
     peso: 10
     check: github.repo.public
-  - id: nome_repo
-    peso: 10
-    check: github.repo.name_matches
-    args:
-      pattern: meu-terceiro-repo
   - id: pr_mergeado
-    peso: 20
+    peso: 25
     check: github.pr.count
     args:
       state: merged
       min: 1
   - id: pelo_menos_2_commits
-    peso: 15
+    peso: 20
     check: github.commits.count_at_least
     args:
       n: 2
@@ -37,9 +32,11 @@ criterios:
 perguntas:
   - texto: "Como você instruiu o agente para criar o arquivo, abrir o PR e fazer o merge? Explique o papel de cada comando do gh executado."
     criterios_avaliacao: |
-      Resposta deve (1) descrever o prompt/instrução dada ao agente em palavras
-      próprias e (2) explicar o que pelo menos 2 comandos do gh CLI executados
-      pelo agente fazem (ex: gh pr create abre PR a partir da branch atual,
-      gh pr merge faz merge na main e fecha o PR). Rejeitar respostas evasivas
-      ("o agente fez tudo automático") ou copy-paste do enunciado/output.
+      Resposta deve (1) mostrar o prompt/instrução dada ao agente (pode ser
+      copy-paste do prompt usado, NÃO precisa reescrever em palavras próprias)
+      e (2) explicar COM SUAS PRÓPRIAS PALAVRAS o que pelo menos 2 comandos do
+      gh CLI executados pelo agente fazem (ex: gh pr create abre PR a partir
+      da branch atual, gh pr merge faz merge na main e fecha o PR). Rejeitar
+      respostas evasivas ("o agente fez tudo automático") na parte (2), ou
+      copy-paste do output dos comandos como explicação.
     peso: 10

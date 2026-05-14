@@ -7,10 +7,10 @@ prazo:
   recomendado_ate: 2026-03-17T23:59:59-03:00
 criterios:
   - id: repo_existe
-    peso: 15
+    peso: 20
     check: github.repo.exists
   - id: pelo_menos_1_commit
-    peso: 15
+    peso: 20
     check: github.commits.count_at_least
     args:
       n: 1
@@ -37,11 +37,6 @@ criterios:
     check: github.commits.last_within
     args:
       duration: 24h
-  - id: nome_repo
-    peso: 10
-    check: github.repo.name_matches
-    args:
-      pattern: meu-primeiro-repo
 perguntas:
   - texto: "O que você entendeu dos comandos que acabou de executar?"
     criterios_avaliacao: |
