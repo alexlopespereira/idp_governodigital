@@ -151,10 +151,13 @@ Veja o YAML do exercício em [`idp_governodigital/exercicios/1.1.yaml`](https://
 | `nome_repo` | 10 | nome contém `meu-primeiro-repo` |
 | `readme_existe` | 10 | arquivo `README.md` no root |
 | `readme_nao_vazio` | 10 | conteúdo não vazio |
-| `pelo_menos_1_commit` | 20 | ≥ 1 commit |
-| `dois_commits` | 15 | ≥ 2 commits |
+| `pelo_menos_1_commit` | 15 | ≥ 1 commit |
+| `dois_commits` | 10 | ≥ 2 commits |
 | `ultimo_commit_recente` | 10 | último commit nas últimas 24h |
+| `reflexao_1` | 10 | resposta subjetiva avaliada por LLM (ver abaixo) |
 | **Total** | **100** | |
+
+> **Novidade — pergunta subjetiva.** A partir do exercício 1.1, antes do boletim a CLI faz uma pergunta de reflexão pedindo que você explique com suas palavras o que entendeu dos comandos. A resposta é avaliada por uma LLM (Gemini) e a nota vai pro critério `reflexao_1`. Respostas em branco são rejeitadas (a CLI fica em loop até você responder).
 
 ### Passo a passo
 
@@ -206,29 +209,45 @@ Dentro do diretório do repo:
 autograde validar 1.1
 ```
 
-A CLI:
-- detecta `repo_url` via `git config --get remote.origin.url`
-- chama `POST /grade-preview` no backend
-- mostra boletim por critério
-- pergunta `Deseja submeter? (s/n)`
+A CLI, na ordem:
+1. detecta `repo_url` via `git config --get remote.origin.url`
+2. chama `POST /grade-preview` (sem respostas) — descobre quais perguntas o exercício tem
+3. **pergunta a você** cada questão subjetiva e espera a resposta (loop até resposta não-vazia)
+4. chama `POST /grade-preview` de novo com suas respostas — backend roda Gemini, grada
+5. mostra boletim por critério (já com a nota do `reflexao_N`)
+6. pergunta `Deseja submeter? (s/n)`
 
 ### Como ler o boletim
 
-Saída esperada (sucesso):
+A CLI primeiro pede a(s) pergunta(s):
 
 ```
-Boletim — Exercicio 1.1 (Seu Primeiro Repositorio)
-============================================================
-[OK]   repo_existe              15/15
-[OK]   pelo_menos_1_commit      20/20
-[OK]   repo_publico             10/10
-[OK]   readme_existe            10/10
-[OK]   readme_nao_vazio         10/10
-[OK]   dois_commits             15/15
-[OK]   ultimo_commit_recente    10/10
-[OK]   nome_repo                10/10
-------------------------------------------------------------
-Nota: 100/100
+Perguntas (1) — responda antes de submeter:
+
+  [1/1] O que você entendeu dos comandos que acabou de executar?
+  Resposta: criei o repo no github, clonei localmente, fiz commits com git
+add e git commit, e enviei pro remoto com git push.
+```
+
+Depois aparece o boletim:
+
+```
+Boletim:
+  ✅ 15/15  repositorio encontrado
+  ✅ 15/15  1 commits (>= 1)
+  ✅ 10/10  repositorio publico
+  ✅ 10/10  arquivo 'README.md' presente
+  ✅ 10/10  arquivo 'README.md' tem 122 bytes
+  ✅ 10/10  2 commits (>= 2)
+  ✅ 10/10  commit dentro de 24h
+  ✅ 10/10  nome 'meu-primeiro-repo' bate com 'meu-primeiro-repo'
+  ✅ 8/10
+      Você citou git init, git add, git commit e git push corretamente,
+      explicando que add prepara arquivos e commit registra mudanças.
+      Faltou explicar o papel do git push (envio pro remoto) — 2 pts
+      descontados.
+
+  Total: 98/100
 
 Deseja submeter? (s/n)
 ```
@@ -236,15 +255,15 @@ Deseja submeter? (s/n)
 Saída com falhas:
 
 ```
-[OK]   repo_existe               15/15
-[FAIL] dois_commits               0/15  esperado 2 commits, encontrou 1
-[OK]   readme_existe             10/10
-[FAIL] readme_nao_vazio           0/10  README.md tem 0 bytes
-...
-Nota: 60/100
+  ✅ 15/15  repositorio encontrado
+  ❌ 0/10   esperado 2 commits, encontrou 1
+  ✅ 10/10  arquivo 'README.md' presente
+  ❌ 0/10   README.md tem 0 bytes
+  ...
+  Total: 60/100
 ```
 
-A coluna `[FAIL]` traz uma **mensagem específica** explicando o que faltou. Use isso pra corrigir antes de submeter.
+O símbolo `❌` traz uma **mensagem específica** explicando o que faltou. Use isso pra corrigir antes de submeter. O critério `reflexao_N` (último) traz o **feedback textual** do Gemini sobre sua resposta, justificando a nota.
 
 **6. Submeter (ou não)**
 
@@ -272,12 +291,13 @@ Pré-requisito: `gh` instalado e autenticado (Parte 1.3).
 
 | Critério | Peso | O que precisa |
 |---|---:|---|
-| `repo_publico` | 20 | repo público |
+| `repo_publico` | 15 | repo público |
 | `pelo_menos_1_pr` | 20 | ≥ 1 Pull Request (qualquer estado) |
-| `pr_titulo_descritivo` | 20 | título do PR não-trivial (não é "WIP", "test", "asdf") |
+| `pr_titulo_descritivo` | 15 | título do PR não-trivial (não é "WIP", "test", "asdf") |
 | `gh_authenticated` | 15 | `gh auth status` retorna OK localmente |
 | `gh_version_capturado` | 10 | `gh --version` capturado |
 | `gh_repo_view_ok` | 15 | `gh repo view` no repo do exercício funciona |
+| `reflexao_1` | 10 | resposta subjetiva (LLM avalia) |
 | **Total** | **100** | |
 
 Os 3 critérios `gh_*` são **evidência local de shell** — a CLI roda `gh` na sua máquina e manda o resultado pro backend. Se `gh` não estiver instalado, esses 40 pontos viram zero.
@@ -321,7 +341,139 @@ autograde validar 1.2
 
 ---
 
-## Parte 4 — Comandos do dia-a-dia
+## Parte 4 — Fazendo o Exercício 1.3 (Agente cria repositório e clona)
+
+Neste exercício você vai usar um **agente de codificação** (Claude Code, Cursor, Codex CLI, GitHub Copilot CLI etc) para automatizar a criação de um repositório e o clone local com `gh`. A ideia não é digitar os comandos — é **instruir o agente** e entender o que ele faz por você.
+
+Pré-requisito: `gh` autenticado (Parte 1.3) e um agente de codificação disponível no seu terminal.
+
+### Critérios
+
+| Critério | Peso | O que precisa |
+|---|---:|---|
+| `repo_existe` | 15 | repo público existe no seu usuário |
+| `repo_publico` | 15 | visibilidade = public |
+| `pelo_menos_1_commit` | 10 | ≥ 1 commit |
+| `nome_repo` | 10 | nome contém `meu-segundo-repo` |
+| `gh_authenticated` | 15 | `gh auth status` retorna OK localmente |
+| `gh_version_capturado` | 10 | `gh --version` capturado |
+| `gh_repo_view_ok` | 15 | `gh repo view` no repo funciona |
+| `reflexao_1` | 10 | resposta subjetiva (LLM avalia) |
+| **Total** | **100** | |
+
+### Passo a passo
+
+**1. Abrir uma pasta vazia + o agente**
+
+```bash
+mkdir ~/agente-cria-repo && cd ~/agente-cria-repo
+claude  # ou: cursor . / codex / aider / etc
+```
+
+**2. Instruir o agente**
+
+Diga algo como:
+
+> *"Crie um repositório público no meu usuário GitHub chamado `meu-segundo-repo` usando `gh`, faça o clone local dentro desta pasta atual e adicione um README inicial com um commit."*
+
+O agente provavelmente vai rodar uma sequência tipo:
+
+```bash
+gh repo create meu-segundo-repo --public --clone
+cd meu-segundo-repo
+echo "# Meu Segundo Repositorio" > README.md
+git add README.md
+git commit -m "feat: README inicial"
+git push origin main
+```
+
+**Atenção**: leia o que o agente faz, não aceite cegamente. Você precisa **entender cada comando** pra responder a pergunta de reflexão depois.
+
+**3. Marcar o exercício e validar**
+
+```bash
+cd meu-segundo-repo
+echo "1.3" > .autograde-exercise
+autograde validar 1.3
+```
+
+A CLI vai fazer a pergunta de reflexão (algo como *"Como você instruiu o agente para criar o repositório e cloná-lo? O que cada comando do gh executado faz?"*) e gradear sua resposta via Gemini, somando ao boletim.
+
+> **Dica**: a nota da reflexão depende da **qualidade da sua explicação**, não da resposta exata. Cite pelo menos 2 comandos do `gh` que o agente executou e explique o que cada um faz com suas palavras.
+
+---
+
+## Parte 5 — Fazendo o Exercício 1.4 (Agente cria arquivo, abre PR e merge)
+
+Continuação natural do 1.3: agora você pede pro agente automatizar o ciclo completo de uma contribuição — criar arquivo, abrir PR e fazer merge.
+
+Pré-requisito: igual ao 1.3 (`gh` autenticado + agente disponível).
+
+### Critérios
+
+| Critério | Peso | O que precisa |
+|---|---:|---|
+| `repo_existe` | 10 | repo público existe no seu usuário |
+| `repo_publico` | 10 | visibilidade = public |
+| `nome_repo` | 10 | nome contém `meu-terceiro-repo` |
+| `pr_mergeado` | 20 | ≥ 1 PR em estado `merged` |
+| `pelo_menos_2_commits` | 15 | ≥ 2 commits na main (initial + PR mergeado) |
+| `gh_authenticated` | 10 | `gh auth status` retorna OK localmente |
+| `gh_repo_view_ok` | 15 | `gh repo view` no repo funciona |
+| `reflexao_1` | 10 | resposta subjetiva (LLM avalia) |
+| **Total** | **100** | |
+
+### Passo a passo
+
+**1. Abrir uma pasta vazia + o agente**
+
+```bash
+mkdir ~/agente-cria-pr && cd ~/agente-cria-pr
+claude  # ou outro agente
+```
+
+**2. Instruir o agente**
+
+Diga algo como:
+
+> *"Crie um repositório público no GitHub chamado `meu-terceiro-repo`, clone-o, faça um commit inicial com README, depois crie uma branch nova, adicione um arquivo `CONTRIBUINDO.md` com um texto curto, abra um Pull Request com título descritivo e faça o merge na main."*
+
+O agente provavelmente vai rodar:
+
+```bash
+gh repo create meu-terceiro-repo --public --clone
+cd meu-terceiro-repo
+echo "# Meu Terceiro Repositorio" > README.md
+git add README.md && git commit -m "feat: README inicial"
+git push origin main
+
+git checkout -b feat/contribuindo
+echo "# Como contribuir" > CONTRIBUINDO.md
+echo "Abra issues e PRs descritivos." >> CONTRIBUINDO.md
+git add CONTRIBUINDO.md && git commit -m "docs: guia de contribuicao"
+git push -u origin feat/contribuindo
+
+gh pr create --title "docs: adiciona guia de contribuicao" --body "Texto inicial sobre como contribuir."
+gh pr merge --squash --delete-branch
+```
+
+Confira no GitHub que o PR aparece como **Merged** e que a `main` tem 2 commits.
+
+**3. Marcar e validar**
+
+```bash
+cd meu-terceiro-repo
+echo "1.4" > .autograde-exercise
+autograde validar 1.4
+```
+
+A pergunta de reflexão pede que você explique o papel do `gh pr create` e do `gh pr merge` com suas palavras. Mostre que entendeu — não copie do output do terminal.
+
+> **Importante**: o critério `pr_mergeado` exige PR no estado `merged`. PR aberto mas não mergeado, ou fechado sem merge, **não** conta. Cheque na aba "Pull requests" do GitHub que ele aparece com a tag roxa "Merged".
+
+---
+
+## Parte 6 — Comandos do dia-a-dia
 
 | Comando | Função |
 |---|---|
@@ -334,7 +486,7 @@ autograde validar 1.2
 
 ---
 
-## Parte 5 — Quando der errado
+## Parte 7 — Quando der errado
 
 ### "Could not detect exercise from CWD"
 
@@ -390,7 +542,7 @@ Se rodou em script sem TTY, o prompt não funciona. Use `--auto-submit`.
 
 ---
 
-## Parte 6 — Re-submissões e melhor nota
+## Parte 8 — Re-submissões e melhor nota
 
 - **Tentativas ilimitadas**. Cada `autograde validar X --auto-submit` (ou `s` no prompt) gera uma linha nova na planilha.
 - Há uma fórmula no Sheet do professor que pega **a maior nota** por aluno × exercício. Não importa quantas tentativas — a melhor conta.
@@ -400,7 +552,7 @@ Se rodou em script sem TTY, o prompt não funciona. Use `--auto-submit`.
 
 ---
 
-## Parte 7 — FAQ rápido
+## Parte 9 — FAQ rápido
 
 **P: Posso usar email pessoal?**
 Não. Backend cruza com o roster da turma, que tem email institucional.
@@ -422,14 +574,15 @@ Sim para 1.1 e 1.2. Para o futuro **exercício 3** (evidência IA), use **WSL2**
 
 ---
 
-## Parte 8 — Próximos exercícios
+## Parte 10 — Próximos exercícios
 
 | Exercício | Estado | O que pede |
 |---|---|---|
 | 1.1 | ✅ disponível | Repo público + README + 2 commits |
 | 1.2 | ✅ disponível | PR + uso de `gh` CLI |
-| 1.3 | em elaboração | PR + merge em branch específica |
-| 3 | em elaboração | Evidência de uso de IA (Claude Code / Codex CLI) |
+| 1.3 | ✅ disponível | Agente cria repo + clone com `gh` |
+| 1.4 | ✅ disponível | Agente cria arquivo + PR + merge com `gh` |
+| 3 | em elaboração | Evidência ampliada de uso de IA |
 
 Critérios e prazos de cada um vivem no YAML correspondente em [`idp_governodigital/exercicios/`](https://github.com/alexlopespereira/idp_governodigital/tree/main/exercicios).
 
