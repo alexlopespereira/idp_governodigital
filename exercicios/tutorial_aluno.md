@@ -146,12 +146,11 @@ Veja o YAML do exercício em [`idp_governodigital/exercicios/1.1.yaml`](https://
 
 | Critério | Peso | O que precisa |
 |---|---:|---|
-| `repo_existe` | 15 | repo público existe no seu usuário |
+| `repo_existe` | 20 | repo público existe no seu usuário |
 | `repo_publico` | 10 | visibilidade = public |
-| `nome_repo` | 10 | nome contém `meu-primeiro-repo` |
 | `readme_existe` | 10 | arquivo `README.md` no root |
 | `readme_nao_vazio` | 10 | conteúdo não vazio |
-| `pelo_menos_1_commit` | 15 | ≥ 1 commit |
+| `pelo_menos_1_commit` | 20 | ≥ 1 commit |
 | `dois_commits` | 10 | ≥ 2 commits |
 | `ultimo_commit_recente` | 10 | último commit nas últimas 24h |
 | `reflexao_1` | 10 | resposta subjetiva avaliada por LLM (ver abaixo) |
@@ -351,10 +350,9 @@ Pré-requisito: `gh` autenticado (Parte 1.3) e um agente de codificação dispon
 
 | Critério | Peso | O que precisa |
 |---|---:|---|
-| `repo_existe` | 15 | repo público existe no seu usuário |
-| `repo_publico` | 15 | visibilidade = public |
+| `repo_existe` | 20 | repo público existe no seu usuário |
+| `repo_publico` | 20 | visibilidade = public |
 | `pelo_menos_1_commit` | 10 | ≥ 1 commit |
-| `nome_repo` | 10 | nome contém `meu-segundo-repo` |
 | `gh_authenticated` | 15 | `gh auth status` retorna OK localmente |
 | `gh_version_capturado` | 10 | `gh --version` capturado |
 | `gh_repo_view_ok` | 15 | `gh repo view` no repo funciona |
@@ -412,9 +410,8 @@ Pré-requisito: igual ao 1.3 (`gh` autenticado + agente disponível).
 |---|---:|---|
 | `repo_existe` | 10 | repo público existe no seu usuário |
 | `repo_publico` | 10 | visibilidade = public |
-| `nome_repo` | 10 | nome contém `meu-terceiro-repo` |
-| `pr_mergeado` | 20 | ≥ 1 PR em estado `merged` |
-| `pelo_menos_2_commits` | 15 | ≥ 2 commits na main (initial + PR mergeado) |
+| `pr_mergeado` | 25 | ≥ 1 PR em estado `merged` |
+| `pelo_menos_2_commits` | 20 | ≥ 2 commits na main (initial + PR mergeado) |
 | `gh_authenticated` | 10 | `gh auth status` retorna OK localmente |
 | `gh_repo_view_ok` | 15 | `gh repo view` no repo funciona |
 | `reflexao_1` | 10 | resposta subjetiva (LLM avalia) |
@@ -429,11 +426,13 @@ mkdir ~/agente-cria-pr && cd ~/agente-cria-pr
 claude  # ou outro agente
 ```
 
-**2. Instruir o agente**
+**2. Instruir o agente — duas etapas**
 
-Diga algo como:
+Para entender melhor cada parte do fluxo, divida a tarefa em **dois prompts** consecutivos:
 
-> *"Crie um repositório público no GitHub chamado `meu-terceiro-repo`, clone-o, faça um commit inicial com README, depois crie uma branch nova, adicione um arquivo `CONTRIBUINDO.md` com um texto curto, abra um Pull Request com título descritivo e faça o merge na main."*
+**Etapa 1 — setup do repo.** Diga ao agente algo como:
+
+> *"Crie um repositório público no GitHub chamado `meu-terceiro-repo`, clone-o, faça um commit inicial com README."*
 
 O agente provavelmente vai rodar:
 
@@ -443,7 +442,17 @@ cd meu-terceiro-repo
 echo "# Meu Terceiro Repositorio" > README.md
 git add README.md && git commit -m "feat: README inicial"
 git push origin main
+```
 
+Confira que o repo está visível no GitHub com o README antes de continuar.
+
+**Etapa 2 — branch + arquivo + PR + merge.** No mesmo agente, dê o segundo prompt:
+
+> *"Crie uma branch nova, adicione um arquivo `CONTRIBUINDO.md` com um texto curto, abra um Pull Request com título descritivo e faça o merge na main."*
+
+O agente provavelmente vai rodar:
+
+```bash
 git checkout -b feat/contribuindo
 echo "# Como contribuir" > CONTRIBUINDO.md
 echo "Abra issues e PRs descritivos." >> CONTRIBUINDO.md
