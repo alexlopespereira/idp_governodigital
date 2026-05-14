@@ -18,7 +18,7 @@ criterios:
     args:
       pattern: meu-terceiro-repo
   - id: pr_mergeado
-    peso: 25
+    peso: 20
     check: github.pr.count
     args:
       state: merged
@@ -32,7 +32,7 @@ criterios:
     peso: 10
     check: evidence.shell.gh_auth_ok
   - id: gh_repo_view_ok
-    peso: 20
+    peso: 15
     check: evidence.shell.gh_repo_view_ok
 perguntas:
   - texto: "Como você instruiu o agente para criar o arquivo, abrir o PR e fazer o merge? Explique o papel de cada comando do gh executado."

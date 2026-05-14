@@ -10,7 +10,7 @@ criterios:
     peso: 15
     check: github.repo.exists
   - id: pelo_menos_1_commit
-    peso: 20
+    peso: 15
     check: github.commits.count_at_least
     args:
       n: 1
@@ -28,7 +28,7 @@ criterios:
     args:
       path: README.md
   - id: dois_commits
-    peso: 15
+    peso: 10
     check: github.commits.count_at_least
     args:
       n: 2
