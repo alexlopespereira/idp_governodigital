@@ -448,7 +448,7 @@ Confira que o repo está visível no GitHub com o README antes de continuar.
 
 **Etapa 2 — branch + arquivo + PR + merge.** No mesmo agente, dê o segundo prompt:
 
-> *Crie uma branch nova, adicione um arquivo `CONTRIBUINDO.md` com um texto curto, abra um Pull Request com título descritivo e faça o merge na main.*
+> *Altere o diretorio de trabalho para o diretorio onde voce clonou o repositorio `meu-terceiro-repo` e crie uma branch nova, adicione um arquivo `CONTRIBUINDO.md` com um texto curto, abra um Pull Request com título descritivo e faça o merge na main.*
 
 O agente provavelmente vai rodar:
 
