@@ -372,7 +372,7 @@ claude  # ou: cursor . / codex / aider / etc
 
 Diga algo como:
 
-> *"Crie um repositório público no meu usuário GitHub chamado `meu-segundo-repo` usando `gh`, faça o clone local dentro desta pasta atual e adicione um README."*
+> *Crie um repositório público no meu usuário GitHub chamado `meu-segundo-repo` usando `gh`, faça o clone local dentro desta pasta atual e adicione um README.*
 
 O agente provavelmente vai rodar uma sequência tipo:
 
