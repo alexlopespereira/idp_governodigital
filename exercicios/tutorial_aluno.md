@@ -432,7 +432,7 @@ Para entender melhor cada parte do fluxo, divida a tarefa em **dois prompts** co
 
 **Etapa 1 — setup do repo.** Diga ao agente algo como:
 
-> *"Crie um repositório público no GitHub chamado `meu-terceiro-repo`, clone-o, faça um commit inicial com README.md"*
+> *Crie um repositório público no GitHub chamado `meu-terceiro-repo`, clone-o, faça um commit inicial com README.md*
 
 O agente provavelmente vai rodar:
 
@@ -448,7 +448,7 @@ Confira que o repo está visível no GitHub com o README antes de continuar.
 
 **Etapa 2 — branch + arquivo + PR + merge.** No mesmo agente, dê o segundo prompt:
 
-> *"Crie uma branch nova, adicione um arquivo `CONTRIBUINDO.md` com um texto curto, abra um Pull Request com título descritivo e faça o merge na main."*
+> *Crie uma branch nova, adicione um arquivo `CONTRIBUINDO.md` com um texto curto, abra um Pull Request com título descritivo e faça o merge na main.*
 
 O agente provavelmente vai rodar:
 
