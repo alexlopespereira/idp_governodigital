@@ -386,11 +386,11 @@ echo "# Meu Segundo Repositorio" > README.md
 
 **Atenção**: leia o que o agente faz, não aceite cegamente. Você precisa **entender cada comando** pra responder a pergunta de reflexão depois.
 
-**3. Marcar o exercício e validar**
+**3. Validar**
+
+Dentro da pasta `meu-segundo-repo`:
 
 ```bash
-cd meu-segundo-repo
-echo "1.3" > .autograde-exercise
 autograde validar 1.3
 ```
 
@@ -456,11 +456,11 @@ gh pr merge --squash --delete-branch
 
 Confira no GitHub que o PR aparece como **Merged** e que a `main` tem 2 commits.
 
-**3. Marcar e validar**
+**3. Validar**
+
+Dentro da pasta `meu-terceiro-repo`:
 
 ```bash
-cd meu-terceiro-repo
-echo "1.4" > .autograde-exercise
 autograde validar 1.4
 ```
 
