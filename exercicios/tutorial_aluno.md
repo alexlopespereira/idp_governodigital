@@ -202,7 +202,7 @@ git push origin main
 
 **5. Validar**
 
-Dentro do diretório do repo:
+Dentro do diretório do repo e fora do terminal do agente:
 
 ```bash
 autograde validar 1.1
@@ -332,6 +332,8 @@ gh pr merge --squash --delete-branch
 ```
 
 # validar
+Dentro do diretório do repo e fora do terminal do agente:
+
 ```bash
 autograde validar 1.2
 ```
@@ -467,7 +469,7 @@ Confira no GitHub que o PR aparece como **Merged** e que a `main` tem 2 commits.
 
 **3. Validar**
 
-Dentro da pasta `meu-terceiro-repo`:
+Dentro da pasta `meu-terceiro-repo` e fora do terminal do agente:
 
 ```bash
 autograde validar 1.4
