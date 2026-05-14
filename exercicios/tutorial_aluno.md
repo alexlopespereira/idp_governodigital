@@ -374,7 +374,7 @@ claude  # ou: cursor . / codex / aider / etc
 
 Diga algo como:
 
-> *"Crie um repositório público no meu usuário GitHub chamado `meu-segundo-repo` usando `gh`, faça o clone local dentro desta pasta atual e adicione um README inicial com um commit."*
+> *"Crie um repositório público no meu usuário GitHub chamado `meu-segundo-repo` usando `gh`, faça o clone local dentro desta pasta atual e adicione um README."*
 
 O agente provavelmente vai rodar uma sequência tipo:
 
@@ -382,9 +382,6 @@ O agente provavelmente vai rodar uma sequência tipo:
 gh repo create meu-segundo-repo --public --clone
 cd meu-segundo-repo
 echo "# Meu Segundo Repositorio" > README.md
-git add README.md
-git commit -m "feat: README inicial"
-git push origin main
 ```
 
 **Atenção**: leia o que o agente faz, não aceite cegamente. Você precisa **entender cada comando** pra responder a pergunta de reflexão depois.
