@@ -432,7 +432,7 @@ Para entender melhor cada parte do fluxo, divida a tarefa em **dois prompts** co
 
 **Etapa 1 — setup do repo.** Diga ao agente algo como:
 
-> *"Crie um repositório público no GitHub chamado `meu-terceiro-repo`, clone-o, faça um commit inicial com README."*
+> *"Crie um repositório público no GitHub chamado `meu-terceiro-repo`, clone-o, faça um commit inicial com README.md"*
 
 O agente provavelmente vai rodar:
 
