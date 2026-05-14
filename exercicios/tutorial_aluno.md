@@ -386,7 +386,7 @@ echo "# Meu Segundo Repositorio" > README.md
 
 **3. Validar**
 
-Dentro da pasta `meu-segundo-repo`:
+Dentro da pasta `meu-segundo-repo` e fora do terminal do agente (claude code, codex, etc):
 
 ```bash
 autograde validar 1.3
@@ -400,7 +400,7 @@ A CLI vai fazer a pergunta de reflexão (algo como *"Como você instruiu o agent
 
 ## Parte 5 — Fazendo o Exercício 1.4 (Agente cria arquivo, abre PR e merge)
 
-Continuação natural do 1.3: agora você pede pro agente automatizar o ciclo completo de uma contribuição — criar arquivo, abrir PR e fazer merge.
+Agora você vai pedir para o agente automatizar o ciclo completo de uma contribuição — criar arquivo, abrir PR e fazer merge.
 
 Pré-requisito: igual ao 1.3 (`gh` autenticado + agente disponível).
 
@@ -421,14 +421,14 @@ Pré-requisito: igual ao 1.3 (`gh` autenticado + agente disponível).
 
 **1. Abrir uma pasta vazia + o agente**
 
+Encerre a sessão anterior do agente no terminal, e depois:
+
 ```bash
 mkdir ~/agente-cria-pr && cd ~/agente-cria-pr
 claude  # ou outro agente
 ```
 
 **2. Instruir o agente — duas etapas**
-
-Para entender melhor cada parte do fluxo, divida a tarefa em **dois prompts** consecutivos:
 
 **Etapa 1 — setup do repo.** Diga ao agente algo como:
 
