@@ -13,7 +13,7 @@ criterios:
     peso: 15
     check: github.repo.public
   - id: pelo_menos_1_commit
-    peso: 15
+    peso: 10
     check: github.commits.count_at_least
     args:
       n: 1
@@ -29,7 +29,7 @@ criterios:
     peso: 10
     check: evidence.shell.gh_version_present
   - id: gh_repo_view_ok
-    peso: 20
+    peso: 15
     check: evidence.shell.gh_repo_view_ok
 perguntas:
   - texto: "Como você instruiu o agente para criar o repositório e cloná-lo? O que cada comando do gh executado faz?"
