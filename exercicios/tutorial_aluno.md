@@ -58,7 +58,7 @@ git config --global user.email "seu.email@aluno.idp.edu.br"
 
 ### 1.3 GitHub CLI (`gh`)
 
-A partir do **Exercício 1.2** o autograder coleta evidência do `gh`. Instale agora pra não travar depois:
+Você vai precisar de uma conta no [github.com](https://github.com/), se ainda não tiver, crie uma. A partir do **Exercício 1.2** o autograder coleta evidência do `gh`. Instale agora pra não travar depois:
 
 - **macOS**: `brew install gh`
 - **Windows (winget)**: `winget install --id GitHub.cli`
