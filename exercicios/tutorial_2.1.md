@@ -291,6 +291,16 @@ O `autograde validar` vai:
 
 ## 6. Rubrica de avaliação (total: 100 pts)
 
+> **Fonte canônica:** a versão autoritativa da rubrica vive em
+> [`exercicios/2.1.yaml`](https://github.com/alexlopespereira/idp_governodigital/blob/main/exercicios/2.1.yaml).
+> Leia esse arquivo antes de submeter — é exatamente o que o backend usa para
+> calcular sua nota. Cada `id` da tabela abaixo (`A_meta_prompt_quality`,
+> `B1_relatorios_distintos`, `C2_C3_C5_mapa_qualidade`, etc.) bate com um
+> `criterios[].id` do YAML, e o campo `args` lá mostra os parâmetros exatos
+> (palavras mínimas, número de URLs, sub-critérios passados ao LLM judge).
+> Se a tabela aqui e o YAML divergirem, **o YAML manda** — esta seção é
+> didática, aquele arquivo é o contrato.
+
 A rubrica é fechada — o LLM judge no backend recebe a rubrica + cada artefato
 e devolve `{criterio_id: {score, evidence_quote, missing}}`. A `evidence_quote`
 aparece no boletim para você entender de onde veio a nota.
