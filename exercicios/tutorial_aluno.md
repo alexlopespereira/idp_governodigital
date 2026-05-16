@@ -15,6 +15,107 @@ Este tutorial leva você do **zero** até **submeter o primeiro exercício** e r
 
 ---
 
+## Pré-requisitos
+
+Antes de começar qualquer exercício, garanta que você tem todas as ferramentas, contas e comandos abaixo. A **Parte 1** deste tutorial mostra como instalar e configurar cada item — esta seção é só um checklist de referência rápida.
+
+### Ferramentas que precisam estar instaladas
+
+| Ferramenta | Versão mínima | Para que serve no laboratório | Onde configura |
+|---|---|---|---|
+| **Python** | 3.9+ | Roda a CLI `autograde` | [Parte 1.1](#11-python-39-ou-superior) |
+| **Git** | qualquer recente | Versionar código, fazer commits e push | [Parte 1.2](#12-git) |
+| **GitHub CLI (`gh`)** | qualquer recente | Criar repos, abrir PRs, fazer merge pela linha de comando (exercícios 1.2+) | [Parte 1.3](#13-github-cli-gh) |
+| **CLI `autograde`** | última do repo | Validar e submeter exercícios | [Parte 1.4](#14-instalar-o-cli-autograde) |
+| **Agente de codificação** | qualquer | Automatizar comandos (exercícios 1.3 e 1.4) | instale antes do 1.3 |
+
+**Agentes de codificação suportados** (escolha um — qualquer um que rode no seu terminal serve):
+- **Claude Code** (Anthropic) — `claude` na linha de comando
+- **Codex CLI** (OpenAI) — `codex`
+- **Cursor** (IDE com agente embutido) — `cursor .`
+- **GitHub Copilot CLI** — `gh copilot`
+- **OpenCode** — `opencode`
+- Entre outros
+
+> Em Windows, prefira rodar o agente dentro do **WSL2**. Claude Code e Codex CLI têm comportamento divergente em Windows nativo.
+
+### Contas que você precisa ter
+
+- **Conta GitHub** ativa (qualquer email serve para o GitHub em si).
+- **Conta Google** — o backend do autograder cruza esse email com o roster da turma. Email pessoal (gmail comum) **não funciona**.
+- Email **já cadastrado no roster** pelo professor. Confirme com `autograde whoami` depois do login.
+
+### Comandos que você vai usar (referência rápida)
+
+Você não precisa decorar — eles aparecem em contexto na Parte 1 e nos exercícios. Lista pra referência:
+
+**Git** (versionamento local):
+```
+git --version
+git config --global user.name "..."
+git config --global user.email "..."
+git clone <url>
+git add <arquivo>
+git commit -m "..."
+git commit -am "..."
+git push origin <branch>
+git push -u origin <branch>
+git checkout -b <branch>
+git status
+git config --get remote.origin.url
+```
+
+**GitHub CLI** (interação com GitHub via terminal):
+```
+gh --version
+gh auth login
+gh auth status
+gh repo create <nome> --public --clone
+gh repo view
+gh pr create --title "..." --body "..."
+gh pr merge --squash --delete-branch
+```
+
+**Autograde** (validação e submissão):
+```
+autograde --version
+autograde login
+autograde whoami
+autograde validar <id>
+autograde validar <id> --auto-submit
+autograde notas
+```
+
+**Python / pip** (instalar a CLI uma vez):
+```
+python --version    # ou python3 --version
+pip install -e .
+python -m pip install --user -e .   # fallback se pip instalar fora do PATH
+```
+
+**Shell básico** (criar arquivos e pastas nos exercícios):
+```
+mkdir <pasta>
+cd <pasta>
+echo "texto" > arquivo.md
+echo "texto" >> arquivo.md
+```
+
+### Checklist antes de começar
+
+- [ ] `python --version` (ou `python3 --version`) retorna 3.9+
+- [ ] `git --version` retorna uma versão
+- [ ] `git config --global user.name` e `user.email` configurados
+- [ ] `gh --version` retorna uma versão
+- [ ] `gh auth status` mostra você logado no `github.com`
+- [ ] `autograde --version` retorna uma versão
+- [ ] `autograde whoami` mostra seu email institucional e turma corretos
+- [ ] (a partir do 1.3) um agente de codificação instalado e acessível no terminal
+
+Se algum item falhar, vá para a Parte 1 correspondente e configure antes de tentar qualquer exercício.
+
+---
+
 ## Parte 1 — Setup (uma vez no semestre)
 
 ### 1.1 Python 3.9 ou superior
