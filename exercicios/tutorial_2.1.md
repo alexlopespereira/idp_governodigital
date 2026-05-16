@@ -3,7 +3,7 @@
 > **Disciplina:** IDP-TD 2026 · **Peso:** 100 pontos · **Tempo estimado:** 3–5h
 > **Pré-requisitos:** exercícios 1.1–1.4 concluídos; conta em pelo menos
 > **dois** assistentes de IA conversacionais (ChatGPT / Gemini / Claude.ai) e
-> Claude Code instalado localmente com a skill `grill-me`.
+> agente (Claude Code, codex, et) instalado localmente com a skill `grill-me`.
 
 ---
 
@@ -17,10 +17,10 @@ encaminhamento ao posto físico). Nessa jornada coexistem **atores humanos**
 (reconhecimento de voz, classificador de intenção, sistema de roteamento,
 chatbots de transbordo).
 
-Você vai mapear essa jornada usando três técnicas complementares — uma de
+Você vai mapear os atores sando três técnicas complementares — uma de
 **síntese inicial** (deep research em um assistente), uma de **verificação
 adversária** (segundo assistente confronta o primeiro), e uma de **destilação
-interativa** (sessão `/grill-me` no Claude Code que força você a decidir).
+interativa** (sessão `/grill-me` no Claude Code ou outro agente de IA que força você a decidir).
 
 ## 2. Objetivos de aprendizagem
 
@@ -30,8 +30,7 @@ Ao final, você será capaz de:
   de IA (não apenas perguntas avulsas).
 - **Operar pesquisa adversária** — usar um segundo assistente para refutar e
   triangular o primeiro, em vez de tratar uma única resposta como verdade.
-- **Identificar atores de IA invisíveis** em um serviço público (a maioria
-  dos mapas omite-os por padrão).
+- **Identificar atores** em um serviço público.
 - **Iterar com `/grill-me`** para converter material bruto em um artefato
   decidido — não uma colagem.
 
@@ -43,9 +42,9 @@ raiz (nomes e capitalização importam — o autograder valida path-a-path):
 | Arquivo | Conteúdo | Tamanho mínimo |
 |---|---|---|
 | `A_meta_prompt.md` | O meta-prompt que você usou na parte A | ≥ 200 palavras |
-| `B_relatorio_assistente1.md` | Relatório bruto do **assistente 1** (ex: Gemini Deep Research) | ≥ 800 palavras, ≥ 3 URLs |
-| `B_relatorio_assistente2.md` | Relatório bruto do **assistente 2** (ex: ChatGPT com web browsing) | ≥ 800 palavras, ≥ 3 URLs |
-| `B_sintese_adversarial.md` | Sua síntese das divergências entre os dois, **versionada** | ≥ 500 palavras, ≥ 2 iterações (`## v1`, `## v2`) |
+| `B_relatorio_original.md` | Relatório bruto do **assistente 1** (ex: Gemini Deep Research) | ≥ 800 palavras, ≥ 3 URLs |
+| `B_relatorio_auditoria.md` | Relatório bruto do **assistente de auditoria** | ≥ 800 palavras, ≥ 3 URLs |
+| `B_sintese_original_corrigido.md` | V2 do relatório original com inconsistencias corrigidas, **versionada** | ≥ 500 palavras, ≥ 2 iterações (`## v1`, `## v2`) |
 | `C_grill_transcript.md` | Cópia integral da sessão `/grill-me` | ≥ 8 rodadas |
 | `C_mapa_atores.md` | Mapa final de atores (tabela RACI **ou** diagrama mermaid) | ≥ 7 atores distintos |
 
