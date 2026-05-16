@@ -1,0 +1,109 @@
+exercicio: "2.1"
+titulo: "Mapa de Atores da Jornada (URA Caixa / Seguro-Desemprego)"
+turmas:
+  - TD-2026-01
+disponivel_a_partir_de: 2026-05-20T08:00:00-03:00
+prazo:
+  recomendado_ate: 2026-06-03T23:59:59-03:00
+criterios:
+  # === Parte A — Meta-prompt (20 pts) ===
+  # A_existe é gating: zero peso, mas se falhar o judge nem é chamado
+  # (judge primitive já reprova quando artefato ausente, então zero peso aqui
+  # serve só de mensagem clara no boletim).
+  - id: A_existe
+    peso: 0
+    check: evidence.artifacts.exists
+    args:
+      role: meta_prompt
+  - id: A_meta_prompt_quality
+    peso: 20
+    check: judge.artifacts.meta_prompt_quality
+    args:
+      role: meta_prompt
+      sub_criterios:
+        - "Escopo explícito do serviço (Seguro-Desemprego, URA, Caixa) sem ambiguidade"
+        - "Pede atores HUMANOS E DE IA explicitamente — não basta 'atores'"
+        - "Define horizonte temporal datado (estado atual ou projeção)"
+        - "Especifica formato de saída estruturado (tabela, JSON, ou seções nomeadas)"
+        - "Exige critérios de fonte verificáveis (URLs, docs oficiais, papers; rejeita blogs sem autoria)"
+
+  # === Parte B — Pesquisa adversarial (40 pts) ===
+  - id: B1_relatorios_distintos
+    peso: 6
+    check: evidence.artifacts.distinct_reports
+    args:
+      roles:
+        - report_ai_1
+        - report_ai_2
+  - id: B2_palavras_r1
+    peso: 4
+    check: evidence.artifacts.word_count_min
+    args:
+      role: report_ai_1
+      min: 800
+  - id: B2_palavras_r2
+    peso: 4
+    check: evidence.artifacts.word_count_min
+    args:
+      role: report_ai_2
+      min: 800
+  - id: B3_urls_r1
+    peso: 4
+    check: evidence.artifacts.links_min
+    args:
+      role: report_ai_1
+      min: 3
+  - id: B3_urls_r2
+    peso: 4
+    check: evidence.artifacts.links_min
+    args:
+      role: report_ai_2
+      min: 3
+  - id: B4_divergencia_real
+    peso: 6
+    check: judge.artifacts.divergence_real
+    args:
+      role: synthesis
+  - id: B5_resolucao
+    peso: 4
+    check: judge.artifacts.resolution_offered
+    args:
+      role: synthesis
+  - id: B6_versoes_presentes
+    peso: 4
+    check: evidence.artifacts.heading_pattern_min
+    args:
+      role: synthesis
+      pattern: '^## v\d+'
+      min: 2
+  - id: B7_evolucao_substantiva
+    peso: 4
+    check: judge.artifacts.evolution_substantive
+    args:
+      role: synthesis
+      min_iterations: 2
+
+  # === Parte C — Mapa via grill-me (40 pts) ===
+  - id: C1_rodadas
+    peso: 8
+    check: judge.artifacts.grill_rounds
+    args:
+      role: grill_transcript
+      min_rounds: 8
+  # C2_C3_C5 consolidado: judge precisa ver mapa + transcript juntos pra
+  # responder qualquer um deles. Separar triplicaria custo de tokens.
+  # Tutorial mantém divisão didática (C2/C3/C5); YAML consolida na execução.
+  - id: C2_C3_C5_mapa_qualidade
+    peso: 24
+    check: judge.artifacts.actor_map_quality
+    args:
+      role_map: actor_map
+      role_transcript: grill_transcript
+      min_actors: 7
+      min_humans: 2
+      min_ai: 2
+  - id: C4_relacoes_explicitas
+    peso: 8
+    check: judge.artifacts.relations_explicit
+    args:
+      role: actor_map
