@@ -4,7 +4,7 @@ turmas:
   - TD-2026-01
 disponivel_a_partir_de: 2026-05-13T08:00:00-03:00
 prazo:
-  recomendado_ate: 2026-05-20T23:59:59-03:00
+  recomendado_ate: 2026-05-31T23:59:59-03:00
 criterios:
   - id: repo_existe
     peso: 20
