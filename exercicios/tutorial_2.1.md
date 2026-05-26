@@ -1,4 +1,4 @@
-# Exercício 2.1 — Mapa de Atores da Jornada de Serviço (URA Caixa / Seguro-Desemprego)
+# Exercício 2.1 — Mapa de Atores da Jornada de um Serviço Público
 
 > **Disciplina:** IDP-TD 2026 · **Peso:** 100 pontos · **Tempo estimado:** 3–5h
 > **Pré-requisitos:** exercícios 1.1–1.4 concluídos; conta em pelo menos
@@ -7,9 +7,21 @@
 
 ---
 
+> **⚠ Escolha do serviço.** Este tutorial usa o **Atendimento ao
+> Seguro-Desemprego pela URA da Caixa** como serviço-exemplo do início ao fim.
+> Você **pode** mantê-lo **ou escolher outro serviço público** que conheça
+> melhor (ex.: emissão de passaporte, agendamento no SUS, matrícula na rede
+> pública, licenciamento de veículo, CadÚnico). Se trocar, **todos os exemplos
+> abaixo — meta-prompt, transcript, mapa, diagramas mermaid — passam a ser
+> ILUSTRATIVOS**: adapte-os ao seu serviço. A rubrica avalia se você **definiu
+> um serviço público concreto e nomeado** (qual serviço, qual canal, qual
+> órgão) e mapeou seus atores humanos **e** de IA — **não** qual serviço você
+> escolheu.
+
 ## 1. Contexto
 
-O **Atendimento ao Seguro-Desemprego pela URA da Caixa** é um serviço público
+O **Atendimento ao Seguro-Desemprego pela URA da Caixa** — serviço-exemplo
+deste tutorial — é um serviço público
 em que o cidadão liga, navega menus de voz, é roteado entre IA e atendente
 humano, e eventualmente obtém uma resposta (status do benefício, agendamento,
 encaminhamento ao posto físico). Nessa jornada coexistem **atores humanos**
@@ -309,7 +321,7 @@ aparece no boletim para você entender de onde veio a nota.
 
 | ID | Critério | Pts | Como é checado |
 |---|---|---|---|
-| A1 | **Escopo explícito do serviço** — cita "Seguro-Desemprego", "URA", "Caixa" sem ambiguidade | 4 | judge: regex + leitura semântica |
+| A1 | **Escopo explícito do serviço** — nomeia UM serviço público concreto (qual serviço, qual canal, qual órgão) sem ambiguidade; não precisa ser a URA/Caixa | 4 | judge: leitura semântica |
 | A2 | **Atores humanos E de IA pedidos explicitamente** — não basta "atores", precisa nomear os dois tipos | 4 | judge: leitura semântica |
 | A3 | **Horizonte temporal definido** — estado atual ou projeção, com janela datada | 4 | judge: leitura semântica |
 | A4 | **Formato de saída estruturado** — tabela/JSON/seções nomeadas, não prosa livre | 4 | judge: leitura + presença de marcadores |
