@@ -27,61 +27,92 @@ criterios:
         - "Especifica formato de saída estruturado (tabela, JSON, ou seções nomeadas)"
         - "Exige critérios de fonte verificáveis (URLs, docs oficiais, papers; rejeita blogs sem autoria)"
 
-  # === Parte B — Pesquisa adversarial (40 pts) ===
-  - id: B1_relatorios_distintos
-    peso: 6
+  # === Parte B — Auditoria iterativa (40 pts) ===
+  # Fluxo: assistente_v1 → auditoria_v1 → assistente_v2 → auditoria_v2 → assistente_v3
+  # 5 arquivos. Síntese versionada saiu de cena: o "adversarial" agora é a
+  # cadeia de auditoria entre dois assistentes, não uma reflexão escrita
+  # pelo aluno. O papel do aluno em B é ORQUESTRAR (prompts + cópia entre
+  # janelas), não sintetizar.
+
+  # --- Determinístico (20 pts) ---
+  - id: B1_iteracoes_distintas
+    peso: 4
     check: evidence.artifacts.distinct_reports
     args:
       roles:
-        - report_ai_1
-        - report_ai_2
-  - id: B2_palavras_r1
-    peso: 4
+        - assistente_v1
+        - assistente_v2
+        - assistente_v3
+  - id: B2_auditorias_distintas
+    peso: 2
+    check: evidence.artifacts.distinct_reports
+    args:
+      roles:
+        - auditoria_v1
+        - auditoria_v2
+  - id: B3_palavras_v1
+    peso: 2
     check: evidence.artifacts.word_count_min
     args:
-      role: report_ai_1
+      role: assistente_v1
       min: 800
-  - id: B2_palavras_r2
-    peso: 4
+  - id: B4_palavras_v2
+    peso: 2
     check: evidence.artifacts.word_count_min
     args:
-      role: report_ai_2
+      role: assistente_v2
       min: 800
-  - id: B3_urls_r1
-    peso: 4
+  - id: B5_palavras_v3
+    peso: 2
+    check: evidence.artifacts.word_count_min
+    args:
+      role: assistente_v3
+      min: 800
+  - id: B6_palavras_audit_v1
+    peso: 2
+    check: evidence.artifacts.word_count_min
+    args:
+      role: auditoria_v1
+      min: 800
+  - id: B7_palavras_audit_v2
+    peso: 2
+    check: evidence.artifacts.word_count_min
+    args:
+      role: auditoria_v2
+      min: 800
+  - id: B8_urls_v1
+    peso: 2
     check: evidence.artifacts.links_min
     args:
-      role: report_ai_1
+      role: assistente_v1
       min: 3
-  - id: B3_urls_r2
-    peso: 4
+  - id: B9_urls_v3
+    peso: 2
     check: evidence.artifacts.links_min
     args:
-      role: report_ai_2
+      role: assistente_v3
       min: 3
-  - id: B4_divergencia_real
+
+  # --- LLM-judge (20 pts) ---
+  - id: B10_audit_v1_substantiva
+    peso: 8
+    check: judge.artifacts.audit_finds_real_issues
+    args:
+      role_audit: auditoria_v1
+      role_audited: assistente_v1
+  - id: B11_v2_aborda_audit_v1
     peso: 6
-    check: judge.artifacts.divergence_real
+    check: judge.artifacts.iteration_addresses_audit
     args:
-      role: synthesis
-  - id: B5_resolucao
-    peso: 4
-    check: judge.artifacts.resolution_offered
+      role_iteration: assistente_v2
+      role_audit: auditoria_v1
+  - id: B12_v3_evolucao_pos_audit_v2
+    peso: 6
+    check: judge.artifacts.iteration_substantive_evolution
     args:
-      role: synthesis
-  - id: B6_versoes_presentes
-    peso: 4
-    check: evidence.artifacts.heading_pattern_min
-    args:
-      role: synthesis
-      pattern: '^## v\d+'
-      min: 2
-  - id: B7_evolucao_substantiva
-    peso: 4
-    check: judge.artifacts.evolution_substantive
-    args:
-      role: synthesis
-      min_iterations: 2
+      role_after: assistente_v3
+      role_before: assistente_v2
+      role_trigger: auditoria_v2
 
   # === Parte C — Mapa via grill-me (40 pts) ===
   - id: C1_rodadas

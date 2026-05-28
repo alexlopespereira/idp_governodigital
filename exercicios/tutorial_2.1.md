@@ -51,15 +51,17 @@ Ao final, você será capaz de:
 
 ## 3. Entregáveis
 
-Crie um repositório GitHub público com **exatamente** estes seis arquivos na
+Crie um repositório GitHub público com **exatamente** estes oito arquivos na
 raiz (nomes e capitalização importam — o autograder valida path-a-path):
 
 | Arquivo | Conteúdo | Tamanho mínimo |
 |---|---|---|
 | `A_meta_prompt.md` | O meta-prompt que você usou na parte A | ≥ 200 palavras |
-| `B_relatorio_assistente1.md` | Relatório bruto do **assistente 1** (ex: Gemini Deep Research) | ≥ 800 palavras, ≥ 3 URLs |
-| `B_relatorio_assistente2.md` | Relatório bruto do **assistente 2** (ex: ChatGPT com web browsing) | ≥ 800 palavras, ≥ 3 URLs |
-| `B_sintese_adversarial.md` | Sua síntese das divergências entre os dois, **versionada** | ≥ 500 palavras, ≥ 2 iterações (`## v1`, `## v2`) |
+| `B_relatorio_assistente_v1.md` | Pesquisa original do **assistente 1** (ex: Gemini Deep Research) | ≥ 800 palavras, ≥ 3 URLs |
+| `B_relatorio_auditoria_v1.md` | Auditoria da v1 pelo **assistente 2** (ex: ChatGPT, Claude.ai) | ≥ 800 palavras |
+| `B_relatorio_assistente_v2.md` | Correção/revisão do **assistente 1** baseada na auditoria_v1 | ≥ 800 palavras |
+| `B_relatorio_auditoria_v2.md` | Segunda auditoria da v2 pelo **assistente 2** | ≥ 800 palavras |
+| `B_relatorio_assistente_v3.md` | Versão final do **assistente 1** após audit_v2 | ≥ 800 palavras, ≥ 3 URLs |
 | `C_grill_transcript.md` | Cópia integral da sessão `/grill-me` | ≥ 8 rodadas |
 | `C_mapa_atores.md` | Mapa final de atores (tabela RACI **ou** diagrama mermaid) | ≥ 7 atores distintos |
 
@@ -67,7 +69,7 @@ raiz (nomes e capitalização importam — o autograder valida path-a-path):
 > (minúsculo) ou `A_meta-prompt.md` (hífen) contam como ausentes.
 
 Coloque também um `README.md` curto na raiz com seu nome completo e um índice
-clicável para os 6 arquivos. Crie o marcador `.autograde-exercise` com o
+clicável para os 8 arquivos. Crie o marcador `.autograde-exercise` com o
 conteúdo `2.1` (uma única linha) — assim `autograde validar` detecta o
 exercício automaticamente.
 
@@ -110,96 +112,128 @@ profundidade Y, retornando no formato Z, citando fontes do tipo W" (meta-prompt)
 4. **Envie** o meta-prompt para o assistente 1 e guarde a resposta inteira
    (você vai usar em B).
 
-### Parte B — Deep research adversarial (≈ 90 min)
+### Parte B — Auditoria iterativa (≈ 90 min)
 
-A ideia da pesquisa adversária: **a resposta de um único assistente é uma
-hipótese, não um fato.** Você roda a mesma investigação em dois assistentes
-diferentes e força os dois a se confrontarem.
+A ideia: **a resposta de um único assistente é uma hipótese, não um fato.**
+Em vez de você sintetizar duas respostas conflitantes, você **orquestra**
+um diálogo entre dois assistentes: um **pesquisa**, o outro **audita**, e
+a pesquisa é corrigida iterativamente pelas auditorias. Seu papel é
+**orquestrar** (copiar conteúdo entre as janelas, mandar prompts de
+auditoria e de correção) — **não escrever uma síntese**.
+
+**Pipeline (5 arquivos):**
+
+```
+v1 → audit_v1 → v2 → audit_v2 → v3
+```
+
+**Pré-requisito:** o meta-prompt de A está pronto e o assistente 1 já
+respondeu à execução inicial.
 
 **Passo a passo:**
 
-1. **Cole a resposta integral do assistente 1** em `B_relatorio_assistente1.md`.
-   Inclua um cabeçalho:
+1. **Salve `B_relatorio_assistente_v1.md`** — copie a resposta integral do
+   assistente 1 com cabeçalho:
 
    ```markdown
-   # Relatório — Assistente 1
+   # Relatório — Assistente v1
 
    - **Ferramenta:** Gemini 2.x Deep Research
    - **Data:** 2026-MM-DD
-   - **Prompt usado:** ver `A_meta_prompt.md`
+   - **Meta-prompt usado:** ver `A_meta_prompt.md`
    - **Link da conversa (se exportável):** ...
    ```
 
-2. **Abra um assistente diferente** (assistente 2 — escolha um *modelo* e um
-   *provedor* diferentes; ex: se A1 foi Gemini, A2 deve ser ChatGPT ou
-   Claude.ai, não outra sessão do Gemini).
-3. **Use o mesmo meta-prompt** — não reescreva. O ponto do adversarial é
-   variar o modelo, não a pergunta.
-4. **Cole a resposta integral em `B_relatorio_assistente2.md`** com o mesmo
-   cabeçalho.
-5. **Agora a parte adversária — e ela é iterativa.** A síntese **não** é
-   um documento escrito de uma vez; é um log de versões. Você escreve `v1`
-   logo depois de ler A1+A2, depois roda `/grill-me` (Parte C), volta e
-   escreve `v2` incorporando o que a entrevista expôs, e (opcionalmente)
-   uma `v3` se ainda restaram dúvidas que mandaram você reabrir o
-   assistente 1 ou 2. **Mínimo: 2 iterações.** Estrutura obrigatória do
-   `B_sintese_adversarial.md`:
+2. **Peça uma AUDITORIA no assistente 2** (modelo *diferente* — ChatGPT,
+   Claude.ai, etc.; **não** outra sessão do mesmo modelo). Use este prompt:
 
-   ```markdown
-   # Síntese adversarial
+   ```
+   Vou te enviar uma pesquisa que outro assistente de IA produziu sobre
+   [seu tópico]. Faça uma AUDITORIA RIGOROSA dela. Identifique TODAS as
+   falhas que encontrar:
+     - erros factuais (cite o trecho)
+     - lacunas de evidência (afirmação sem fonte)
+     - inferências mal-suportadas
+     - fontes fracas ou ausentes
+     - atribuições incorretas
+     - atores omitidos relevantes
+   NÃO conte como falha questões cosméticas (formatação, estilo, ordem).
+   Para cada falha, cite o trecho e justifique.
 
-   ## v1 — primeira leitura (data: 2026-MM-DD HH:MM)
-
-   ### Pontos de concordância
-   - [Atores que ambos listam, com confiança]
-
-   ### Divergências
-   - **Divergência 1:** [o que A1 afirma vs. o que A2 afirma]
-     - Quem está mais defensável? Por quê? Que evidência decide?
-   - **Divergência 2:** ...
-
-   ### Lacunas dos dois
-   - [Atores que você suspeita existirem mas nenhum dos dois citou]
-
-   ### Perguntas em aberto que levarei ao /grill-me
-   - ...
-
-   ---
-
-   ## v2 — após sessão /grill-me (data: 2026-MM-DD HH:MM)
-
-   ### Mudanças nesta versão
-   - **Mudou:** [posição X que eu defendia em v1 → posição Y agora]
-     **Gatilho:** [pergunta N do grill-me / nova evidência / resposta que
-     contradisse premissa em v1]
-   - **Novo ator detectado:** [ator Z que não estava em v1]
-     **Gatilho:** [como apareceu]
-   - **Divergência resolvida:** [Divergência 1 de v1 → fechada porque ...]
-
-   ### Estado atual da síntese (sobrescreve v1)
-   - Concordância: ...
-   - Divergências residuais: ...
-   - Decisão para o mapa em C: ...
-
-   ---
-
-   ## v3 — (opcional) após follow-up no assistente 1/2
-
-   ### Mudanças nesta versão
-   - ...
+   PESQUISA A AUDITAR:
+   """
+   [colar v1 aqui]
+   """
    ```
 
-   **Critérios não-negociáveis:**
-   - Cada versão (a partir de v2) precisa de um bloco `### Mudanças nesta
-     versão` com pelo menos **uma** mudança substantiva (mudou posição,
-     descobriu ator, resolveu divergência, abriu nova pergunta), e cada
-     mudança precisa citar o **gatilho** concreto (não vale "pensei
-     melhor"). O LLM-judge rejeita evolução cosmética (reescrita sem novo
-     conteúdo) — B7 = 0.
-   - A versão final precisa conter pelo menos **uma** divergência real
-     identificada em algum ponto do processo (não cosmética). Se a única
-     "divergência" é "A1 usou bullet point e A2 usou tabela", você fez
-     resumo, não pesquisa adversária.
+   Cole a resposta integral em `B_relatorio_auditoria_v1.md`. Mínimo
+   **800 palavras** (auditoria substantiva, não one-liner).
+
+3. **Volte ao assistente 1** com a auditoria. Prompt:
+
+   ```
+   Você fez uma pesquisa que eu submeti a auditoria por outro assistente.
+   Segue a auditoria abaixo. Produza uma v2 da pesquisa ABORDANDO CADA
+   falha apontada — para cada uma escolha:
+     (a) corrigir com texto novo,
+     (b) defender com argumento contrário e evidência, ou
+     (c) marcar explicitamente como pendente / em-aberto.
+   NÃO ignore falhas (seguir do mesmo jeito sem mencionar não conta).
+
+   AUDITORIA:
+   """
+   [colar audit_v1 aqui]
+   """
+   ```
+
+   Cole a v2 em `B_relatorio_assistente_v2.md`. Mínimo **800 palavras**.
+
+4. **Segunda auditoria no assistente 2** sobre a v2:
+
+   ```
+   Esta é a v2 de uma pesquisa que você auditou anteriormente
+   (audit_v1). Faça uma SEGUNDA auditoria verificando:
+     (a) se cada falha que você apontou no audit_v1 foi de fato
+         endereçada na v2,
+     (b) se a v2 introduziu falhas novas,
+     (c) se restam pontos abertos.
+   Continue rigoroso — não amenize por gentileza.
+
+   v2 A AUDITAR:
+   """
+   [colar v2 aqui]
+   """
+   ```
+
+   Cole em `B_relatorio_auditoria_v2.md`. Mínimo **800 palavras**.
+
+5. **Volte ao assistente 1** para a versão final:
+
+   ```
+   Última iteração. Segue a segunda auditoria. Produza uma v3 que aborde
+   os pontos restantes do audit_v2. Para CADA delta da v3 em relação à
+   v2, CITE o ponto específico do audit_v2 que motivou a mudança
+   (gatilho concreto). Evite reescrita cosmética.
+
+   AUDITORIA v2:
+   """
+   [colar audit_v2 aqui]
+   """
+   ```
+
+   Cole em `B_relatorio_assistente_v3.md`. Mínimo **800 palavras**.
+
+**Critérios não-negociáveis (a rubrica zera se faltar):**
+
+- **`audit_v1` substantiva (B10):** ≥ 1 falha REAL identificada. "A v1
+  usou bullet em vez de prosa" não conta.
+- **`v2` ABORDA a `audit_v1` (B11):** cada falha tem tratamento (a/b/c).
+  Ignorar = zero.
+- **`v3` evolui sobre v2 com gatilho da `audit_v2` (B12):** cada delta
+  cita o ponto da audit_v2 que motivou. "Refleti melhor" não conta.
+
+**Dois assistentes DIFERENTES (modelos subjacentes distintos):** Gemini
+≠ ChatGPT ≠ Claude. ChatGPT-4 vs ChatGPT-4o **não** conta.
 
 ### Parte C — Mapa de atores via `/grill-me` (≈ 60 min)
 
@@ -220,10 +254,11 @@ você usa para destilar B em um mapa decidido.
    /grill-me
 
    Quero produzir um mapa de atores da jornada "Atendimento ao
-   Seguro-Desemprego pela URA da Caixa". Eu já fiz pesquisa adversária em
-   dois assistentes (anexos em B_relatorio_assistente1.md,
-   B_relatorio_assistente2.md, B_sintese_adversarial.md). Quero que você me
-   entreviste, uma pergunta por vez, até eu ter clareza sobre:
+   Seguro-Desemprego pela URA da Caixa". Eu já fiz uma chain de auditoria
+   iterativa entre dois assistentes (v1 → audit_v1 → v2 → audit_v2 → v3 em
+   B_relatorio_assistente_v{1,2,3}.md + B_relatorio_auditoria_v{1,2}.md;
+   a v3 é a versão consolidada). Quero que você me entreviste, uma
+   pergunta por vez, até eu ter clareza sobre:
      - quais atores são reais vs. inferidos
      - onde cada ator entra e sai da jornada
      - como categorizar cada um (papel, posição no fluxo, tipo de organização)
@@ -269,13 +304,6 @@ você usa para destilar B em um mapa decidido.
    **Mínimo:** 7 atores distintos. Cada ator no mapa deve aparecer no
    transcript da sessão `/grill-me` (a rubrica verifica essa consistência).
 
-7. **Volte para a Parte B e escreva a `v2` da síntese.** O `/grill-me`
-   provavelmente derrubou alguma premissa de `v1`, descobriu um ator novo,
-   resolveu uma divergência, ou levantou pergunta que você teve que reabrir
-   no assistente 1/2. Documente isso no bloco `### Mudanças nesta versão`
-   de `v2`, citando o gatilho concreto (ex: "pergunta 4 do grill mostrou que
-   eu estava misturando IVR com URA"). Sem esse retorno, B6 e B7 zeram.
-
 ---
 
 ## 5. Validação local e submissão
@@ -293,11 +321,12 @@ autograde validar 2.1
 
 O `autograde validar` vai:
 1. Detectar o repo via `git remote.origin.url`.
-2. Ler os 6 arquivos e calcular evidência local (existência, palavras, URLs,
+2. Ler os 8 arquivos e calcular evidência local (existência, palavras, URLs,
    sha256, headings).
 3. Enviar `artifacts_evidence` + `repo_url` ao backend.
-4. Backend roda **checks determinísticos** (10 pts) + **LLM-as-judge** sobre
-   o conteúdo (90 pts) contra a rubrica abaixo.
+4. Backend roda **checks determinísticos** (20 pts, todos em B) +
+   **LLM-as-judge** sobre o conteúdo (80 pts: A=20, B=20, C=40) contra a
+   rubrica abaixo.
 5. Mostra boletim. Se aceitar, digite `s` para submeter.
 
 > Limite de previews por dia: 10. Use com critério.
@@ -330,17 +359,22 @@ aparece no boletim para você entender de onde veio a nota.
 | A4 | **Formato de saída estruturado** — tabela/JSON/seções nomeadas, não prosa livre | 4 | judge: leitura + presença de marcadores |
 | A5 | **Critérios de fonte verificáveis** — exige URLs, documentos oficiais, ou rejeição de fontes fracas | 4 | judge: leitura semântica |
 
-### Parte B — Pesquisa adversarial (40 pts)
+### Parte B — Auditoria iterativa (40 pts)
 
 | ID | Critério | Pts | Como é checado |
 |---|---|---|---|
-| B1 | **Dois relatórios distintos existem** — sha256 diferente, primeiros 500 chars distintos | 6 | determinístico (collector) |
-| B2 | **Cada relatório ≥ 800 palavras** (substância, não outline) | 8 | determinístico (`word_count`) |
-| B3 | **Cada relatório ≥ 3 URLs externas** distintas | 8 | determinístico (`links`) |
-| B4 | **Síntese identifica ≥ 1 divergência real** entre A1 e A2 (não cosmética) | 6 | judge com rubrica explícita |
-| B5 | **Síntese propõe resolução** — qual posição é mais defensável ou abre pergunta | 4 | judge |
-| B6 | **Síntese versionada com ≥ 2 iterações** (`## v1`, `## v2`) e cada iteração ≥ v2 tem bloco `### Mudanças nesta versão` | 4 | determinístico (`headings[]` conta `## v\d+` e `### Mudanças`) + judge (rejeita iterações vazias/duplicadas) |
-| B7 | **Evolução substantiva entre versões** — cada bloco de mudanças cita ≥ 1 delta concreto (mudou posição, novo ator, divergência resolvida, pergunta aberta) **e** o gatilho que causou (pergunta de grill, nova evidência, resposta de A1/A2 reaberto). Cosmético/reescrita sem novo conteúdo = 0 | 4 | judge |
+| B1 | **Três iterações distintas** — `v1`, `v2`, `v3` com sha256 + primeiros 500 chars distintos (sem echo entre versões) | 4 | determinístico |
+| B2 | **Duas auditorias distintas** — `audit_v1` ≠ `audit_v2` (segunda auditoria real, não cópia) | 2 | determinístico |
+| B3 | `assistente_v1` ≥ 800 palavras | 2 | determinístico (`word_count`) |
+| B4 | `assistente_v2` ≥ 800 palavras | 2 | determinístico |
+| B5 | `assistente_v3` ≥ 800 palavras | 2 | determinístico |
+| B6 | `auditoria_v1` ≥ 800 palavras | 2 | determinístico |
+| B7 | `auditoria_v2` ≥ 800 palavras | 2 | determinístico |
+| B8 | `assistente_v1` ≥ 3 URLs externas distintas | 2 | determinístico (`links`) |
+| B9 | `assistente_v3` ≥ 3 URLs externas distintas | 2 | determinístico |
+| B10 | **`audit_v1` aponta ≥ 1 falha REAL** em `v1` (factual, lacuna de evidência, inferência mal-suportada, fonte fraca, ator omitido) — não cosmética | 8 | judge com rubrica explícita |
+| B11 | **`v2` ABORDA as falhas da `audit_v1`** — cada falha recebe (a) correção, (b) defesa com argumento, ou (c) marcação "em aberto"; ignorar = zero | 6 | judge |
+| B12 | **`v3` evolui substantivamente sobre `v2`** pelo gatilho da `audit_v2` (delta concreto + gatilho citado da auditoria); "refleti melhor" = zero | 6 | judge |
 
 ### Parte C — Mapa via grill-me (40 pts)
 
@@ -355,7 +389,8 @@ aparece no boletim para você entender de onde veio a nota.
 ### Penalidades
 
 - Cópia entre alunos detectada via sha256 dos arquivos: **−100% no item afetado**.
-- Síntese B é resumo, não confronto (B4 = 0): **−50% adicional em B5**.
+- Auditoria cosmética (B10 = 0): tende a derrubar também B11 e B12 (não há
+  falhas reais para v2 abordar nem gatilhos para v3 evoluir).
 - Atraso: regras-padrão do autograder (perda diária definida no backend).
 
 ---
@@ -364,27 +399,30 @@ aparece no boletim para você entender de onde veio a nota.
 
 Antes de submeter, confirme:
 
-- [ ] `autograde validar 2.1` roda sem erro de schema (todos os 6 arquivos
+- [ ] `autograde validar 2.1` roda sem erro de schema (todos os 8 arquivos
       `exists=True` no payload).
-- [ ] Cada arquivo de B tem ≥ 800 palavras e ≥ 3 URLs distintos
-      (verifique com `wc -w B_*.md` e `grep -oE 'https?://[^[:space:]]+' B_*.md | sort -u`).
-- [ ] `B_sintese_adversarial.md` tem pelo menos **2 cabeçalhos `## v1`,
-      `## v2`** (a v1 é a leitura inicial; v2 é o estado pós-`/grill-me`).
-      Verifique com `grep -E '^## v[0-9]+' B_sintese_adversarial.md`.
-- [ ] Cada versão a partir de v2 tem bloco `### Mudanças nesta versão`
-      com pelo menos uma mudança que cita gatilho concreto (pergunta N do
-      grill / nova evidência / etc.) — não vale "refleti melhor".
-- [ ] **Ordem real de execução foi: A → leitura A1+A2 → escrever v1 → C
-      (grill-me) → escrever v2.** Se você escreveu a síntese inteira no
-      final, B6/B7 vão zerar (datas em v1/v2 fora de ordem disparam o
-      judge).
-- [ ] `C_grill_transcript.md` tem pelo menos 8 marcadores "## Pergunta N" ou
-      equivalente — você pode formatar livremente, mas precisa dar pro
-      autograder contar as rodadas.
+- [ ] Cada `assistente_v{1,2,3}` tem ≥ 800 palavras
+      (`wc -w B_relatorio_assistente_v*.md`).
+- [ ] Cada `auditoria_v{1,2}` tem ≥ 800 palavras
+      (`wc -w B_relatorio_auditoria_v*.md`).
+- [ ] `assistente_v1` e `assistente_v3` têm ≥ 3 URLs distintos
+      (`grep -oE 'https?://[^[:space:]]+' B_relatorio_assistente_v1.md B_relatorio_assistente_v3.md | sort -u`).
+- [ ] As 3 iterações de assistente são distintas (não cópia de v1 com
+      mudança trivial) e as 2 auditorias também (`audit_v2` não copia
+      `audit_v1`).
+- [ ] `audit_v1` aponta ≥ 1 falha REAL na `v1` (não cosmética). Auditoria
+      tipo "está ótimo" ou só elogio derruba B10/B11/B12 juntos.
+- [ ] `v2` aborda as falhas da `audit_v1` — cada falha tem tratamento
+      (corrigida / defendida com argumento / marcada como aberta).
+      Ignorar = zero em B11.
+- [ ] `v3` cita gatilhos da `audit_v2` em cada delta sobre `v2`.
+      "Refleti melhor" sem gatilho = zero em B12.
+- [ ] `C_grill_transcript.md` tem pelo menos 8 marcadores de rodada
+      (formato livre, contanto que dê pra contar).
 - [ ] Todo ator de `C_mapa_atores.md` aparece nominalmente em
       `C_grill_transcript.md`.
 - [ ] `.autograde-exercise` contém só a string `2.1`.
-- [ ] README do repo tem seu nome completo e índice dos 6 arquivos.
+- [ ] README do repo tem seu nome completo e índice dos 8 arquivos.
 
 ---
 
