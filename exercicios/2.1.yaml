@@ -1,5 +1,5 @@
 exercicio: "2.1"
-titulo: "Mapa de Atores da Jornada (URA Caixa / Seguro-Desemprego)"
+titulo: "Mapa de Atores da Jornada de um Serviço Público (serviço à escolha do aluno)"
 turmas:
   - TD-2026-01
 disponivel_a_partir_de: 2026-05-17T00:00:00-03:00
@@ -21,7 +21,7 @@ criterios:
     args:
       role: meta_prompt
       sub_criterios:
-        - "Escopo explícito do serviço (Seguro-Desemprego, URA, Caixa) sem ambiguidade"
+        - "Escopo explícito de UM serviço público concreto e nomeado — qual serviço, qual canal de atendimento, qual órgão — sem ambiguidade (NÃO precisa ser a URA/Caixa: qualquer serviço público que o aluno domine)"
         - "Pede atores HUMANOS E DE IA explicitamente — não basta 'atores'"
         - "Define horizonte temporal datado (estado atual ou projeção)"
         - "Especifica formato de saída estruturado (tabela, JSON, ou seções nomeadas)"
