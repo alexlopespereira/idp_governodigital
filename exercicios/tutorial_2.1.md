@@ -15,19 +15,20 @@
 > abaixo — meta-prompt, transcript, mapa, diagramas mermaid — passam a ser
 > ILUSTRATIVOS**: adapte-os ao seu serviço. A rubrica avalia se você **definiu
 > um serviço público concreto e nomeado** (qual serviço, qual canal, qual
-> órgão) e mapeou seus atores humanos **e** de IA — **não** qual serviço você
+> órgão) e identificou tipologia clara dos atores (papéis, categorias) — **não** qual serviço você
 > escolheu.
 
 ## 1. Contexto
 
 O **Atendimento ao Seguro-Desemprego pela URA da Caixa** — serviço-exemplo
 deste tutorial — é um serviço público
-em que o cidadão liga, navega menus de voz, é roteado entre IA e atendente
-humano, e eventualmente obtém uma resposta (status do benefício, agendamento,
-encaminhamento ao posto físico). Nessa jornada coexistem **atores humanos**
-(cidadão, atendente, gerente de fila, auditor) e **atores de IA**
-(reconhecimento de voz, classificador de intenção, sistema de roteamento,
-chatbots de transbordo).
+em que o cidadão liga, navega menus de voz, é roteado entre canais
+automatizados e atendentes, e eventualmente obtém uma resposta (status do
+benefício, agendamento, encaminhamento ao posto físico). A jornada envolve
+uma **diversidade de atores** — cidadãos na ponta, operadores, supervisores,
+auditores, fornecedores de tecnologia, órgãos de controle — e sistemas
+automatizados na retaguarda. **Mapear quem está ali e o papel de cada um**
+é o trabalho.
 
 Você vai mapear essa jornada usando três técnicas complementares — uma de
 **síntese inicial** (deep research em um assistente), uma de **verificação
@@ -42,8 +43,9 @@ Ao final, você será capaz de:
   de IA (não apenas perguntas avulsas).
 - **Operar pesquisa adversária** — usar um segundo assistente para refutar e
   triangular o primeiro, em vez de tratar uma única resposta como verdade.
-- **Identificar atores de IA invisíveis** em um serviço público (a maioria
-  dos mapas omite-os por padrão).
+- **Identificar atores frequentemente esquecidos** em mapas tradicionais —
+  intermediários, órgãos de controle, fornecedores, sistemas de retaguarda
+  (a maioria dos mapas para nos óbvios da linha de frente).
 - **Iterar com `/grill-me`** para converter material bruto em um artefato
   decidido — não uma colagem.
 
@@ -92,12 +94,14 @@ profundidade Y, retornando no formato Z, citando fontes do tipo W" (meta-prompt)
    - **Escopo** explícito: serviço = Atendimento ao Seguro-Desemprego;
      canal = URA telefônica da Caixa Econômica Federal; jornada = do
      momento em que o cidadão liga até a resolução ou encaminhamento.
-   - **Atores a mapear, explicitamente HUMANOS E DE IA.** Se você não disser
-     "incluindo sistemas automatizados, modelos de NLP, regras de roteamento
-     algorítmico", o assistente quase sempre lista só pessoas.
+   - **Atores a mapear com TIPOLOGIA explícita** — peça classificação por
+     papel/categoria (cidadão na ponta, operadores, decisores, órgãos de
+     controle, intermediários, fornecedores, sistemas de retaguarda quando
+     aplicável). Se você só pedir "atores", o assistente lista 4 pessoas
+     óbvias e para.
    - **Horizonte temporal:** estado atual (2024–2026), ou inclui projeção?
    - **Formato de saída:** tabela markdown com colunas
-     `[ator, tipo (humano/IA), papel na jornada, ponto de entrada, ponto de saída, evidência/fonte]`.
+     `[ator, categoria/papel, posição na jornada, ponto de entrada, ponto de saída, evidência/fonte]`.
    - **Critérios de fonte:** documentos oficiais (gov.br, Caixa, MTE), relatos
      do TCU/CGU, papers acadêmicos, jornalismo investigativo. Recusar blogs
      sem autoria e o próprio chatbot do site.
@@ -215,14 +219,14 @@ você usa para destilar B em um mapa decidido.
    ```
    /grill-me
 
-   Quero produzir um mapa de atores (humanos e de IA) da jornada
-   "Atendimento ao Seguro-Desemprego pela URA da Caixa". Eu já fiz pesquisa
-   adversária em dois assistentes (anexos em B_relatorio_assistente1.md,
+   Quero produzir um mapa de atores da jornada "Atendimento ao
+   Seguro-Desemprego pela URA da Caixa". Eu já fiz pesquisa adversária em
+   dois assistentes (anexos em B_relatorio_assistente1.md,
    B_relatorio_assistente2.md, B_sintese_adversarial.md). Quero que você me
    entreviste, uma pergunta por vez, até eu ter clareza sobre:
      - quais atores são reais vs. inferidos
      - onde cada ator entra e sai da jornada
-     - quais são humanos, quais são IA, quais são híbridos
+     - como categorizar cada um (papel, posição no fluxo, tipo de organização)
      - quais relações entre eles importam para o mapa final
    ```
 
@@ -237,10 +241,10 @@ você usa para destilar B em um mapa decidido.
    **Formato A — Tabela RACI:**
 
    ```markdown
-   | # | Ator | Tipo | Responsável (R) | Aprovador (A) | Consultado (C) | Informado (I) | Entra na jornada | Sai da jornada |
-   |---|------|------|-----------------|---------------|----------------|---------------|------------------|----------------|
-   | 1 | Cidadão | Humano | Iniciar chamada | — | — | Status | t=0 | resolução/desistência |
-   | 2 | IVR (reconhecimento de voz) | IA | Classificar intenção | — | — | — | t=0+5s | encaminhamento |
+   | # | Ator | Categoria | Responsável (R) | Aprovador (A) | Consultado (C) | Informado (I) | Entra na jornada | Sai da jornada |
+   |---|------|-----------|-----------------|---------------|----------------|---------------|------------------|----------------|
+   | 1 | Cidadão | Demandante | Iniciar chamada | — | — | Status | t=0 | resolução/desistência |
+   | 2 | IVR (reconhecimento de voz) | Sistema de atendimento | Classificar intenção | — | — | — | t=0+5s | encaminhamento |
    | ... | ... | ... | ... | ... | ... | ... | ... | ... |
    ```
 
@@ -249,11 +253,11 @@ você usa para destilar B em um mapa decidido.
    ```markdown
    ```mermaid
    flowchart LR
-     Cidadao -->|liga| IVR[IA: IVR]
-     IVR -->|intenção 'seguro-desemprego'| Router[IA: roteador]
-     Router -->|caso simples| Bot[IA: chatbot transbordo]
-     Router -->|caso complexo| Atendente[Humano: atendente N1]
-     Atendente -->|escalation| GerenteFila[Humano: supervisor]
+     Cidadao -->|liga| IVR[IVR/menu de voz]
+     IVR -->|intenção 'seguro-desemprego'| Router[Roteador]
+     Router -->|caso simples| Bot[Chatbot de transbordo]
+     Router -->|caso complexo| Atendente[Atendente N1]
+     Atendente -->|escalation| Supervisor[Supervisor]
      ...
    ```
 
@@ -262,9 +266,8 @@ você usa para destilar B em um mapa decidido.
    | ... | ... | ... |
    ```
 
-   **Mínimo:** 7 atores distintos, com pelo menos **2 humanos** e **2 IA**.
-   Cada ator no mapa deve aparecer no transcript da sessão `/grill-me` (a
-   rubrica verifica essa consistência).
+   **Mínimo:** 7 atores distintos. Cada ator no mapa deve aparecer no
+   transcript da sessão `/grill-me` (a rubrica verifica essa consistência).
 
 7. **Volte para a Parte B e escreva a `v2` da síntese.** O `/grill-me`
    provavelmente derrubou alguma premissa de `v1`, descobriu um ator novo,
@@ -322,7 +325,7 @@ aparece no boletim para você entender de onde veio a nota.
 | ID | Critério | Pts | Como é checado |
 |---|---|---|---|
 | A1 | **Escopo explícito do serviço** — nomeia UM serviço público concreto (qual serviço, qual canal, qual órgão) sem ambiguidade; não precisa ser a URA/Caixa | 4 | judge: leitura semântica |
-| A2 | **Atores humanos E de IA pedidos explicitamente** — não basta "atores", precisa nomear os dois tipos | 4 | judge: leitura semântica |
+| A2 | **Tipologia explícita dos atores pedida** — não fica em "liste atores"; pede papéis/categorias (cidadãos, operadores, decisores, controle, fornecedores, etc.) | 4 | judge: leitura semântica |
 | A3 | **Horizonte temporal definido** — estado atual ou projeção, com janela datada | 4 | judge: leitura semântica |
 | A4 | **Formato de saída estruturado** — tabela/JSON/seções nomeadas, não prosa livre | 4 | judge: leitura + presença de marcadores |
 | A5 | **Critérios de fonte verificáveis** — exige URLs, documentos oficiais, ou rejeição de fontes fracas | 4 | judge: leitura semântica |
@@ -345,15 +348,13 @@ aparece no boletim para você entender de onde veio a nota.
 |---|---|---|---|
 | C1 | **Transcript com ≥ 8 rodadas Q&A** distinguíveis | 8 | determinístico (regex Q/A) + judge para qualidade |
 | C2 | **Consistência transcript ↔ mapa** — todos atores do mapa aparecem em respostas do transcript | 8 | judge (cross-reference) |
-| C3 | **≥ 7 atores distintos no mapa**, com ≥ 2 humanos e ≥ 2 IA | 10 | judge (tipagem) + determinístico (contagem linhas tabela) |
+| C3 | **≥ 7 atores distintos no mapa** | 10 | judge + determinístico (contagem linhas tabela) |
 | C4 | **Relações entre atores explícitas** — RACI ou setas mermaid, não lista solta | 8 | judge (formato) + determinístico (detecção `\|...\|` ou `flowchart`) |
 | C5 | **Decisões do grill citadas no mapa** — pelo menos 2 escolhas do transcript justificam categorização | 6 | judge |
 
 ### Penalidades
 
 - Cópia entre alunos detectada via sha256 dos arquivos: **−100% no item afetado**.
-- Mapa contém apenas atores humanos (zero IA): **−100% no item C** (a aula
-  inteira é sobre tornar IA visível).
 - Síntese B é resumo, não confronto (B4 = 0): **−50% adicional em B5**.
 - Atraso: regras-padrão do autograder (perda diária definida no backend).
 
@@ -396,11 +397,10 @@ Antes de submeter, confirme:
   conta; ChatGPT-4 vs. ChatGPT-4o não conta.
 - **Cuidado com PII em transcripts.** Se o assistente citar nomes reais de
   servidores, anonimize antes de commitar (o repo será público).
-- **Atores de IA contam mesmo quando o serviço não os chama de "IA".** O
-  reconhecimento de voz da URA é um modelo acústico — é IA. O classificador
-  "esta chamada é sobre seguro-desemprego?" é IA. O motor de regras de
-  roteamento *talvez* não seja IA estatística, mas é decisão algorítmica —
-  vale citar como ator automatizado.
+- **Atores invisíveis contam — não só quem está na linha de frente.** Quem
+  aprova o processo? Quem audita? Quem fornece o sistema que opera por trás?
+  Quem normatiza? Esses atores afetam a jornada e geralmente somem do mapa
+  porque o aluno foca apenas no ponto de contato com o cidadão.
 - **Não gere o `C_mapa_atores.md` a partir de um único prompt no Claude.** A
   rubrica C2 (consistência transcript ↔ mapa) e C5 (decisões citadas)
   detectam isso — você perde 14 pts dos 40.
