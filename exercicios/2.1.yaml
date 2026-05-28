@@ -22,7 +22,7 @@ criterios:
       role: meta_prompt
       sub_criterios:
         - "Escopo explícito de UM serviço público concreto e nomeado — qual serviço, qual canal de atendimento, qual órgão — sem ambiguidade (NÃO precisa ser a URA/Caixa: qualquer serviço público que o aluno domine)"
-        - "Pede atores HUMANOS E DE IA explicitamente — não basta 'atores'"
+        - "Pede TIPOLOGIA explícita dos atores (papéis, categorias, posição no fluxo) — não fica em 'liste atores' genérico (ex.: cidadãos na ponta, operadores, decisores, órgãos de controle, intermediários, fornecedores)"
         - "Define horizonte temporal datado (estado atual ou projeção)"
         - "Especifica formato de saída estruturado (tabela, JSON, ou seções nomeadas)"
         - "Exige critérios de fonte verificáveis (URLs, docs oficiais, papers; rejeita blogs sem autoria)"
@@ -100,8 +100,10 @@ criterios:
       role_map: actor_map
       role_transcript: grill_transcript
       min_actors: 7
-      min_humans: 2
-      min_ai: 2
+      # Tipagem humanos/IA não é exigida: exercício avalia diversidade de
+      # atores (papéis/categorias) sem cobrar categoria humano-vs-IA.
+      min_humans: 0
+      min_ai: 0
   - id: C4_relacoes_explicitas
     peso: 8
     check: judge.artifacts.relations_explicit
