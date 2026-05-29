@@ -5,6 +5,26 @@ turmas:
 disponivel_a_partir_de: 2026-05-17T00:00:00-03:00
 prazo:
   recomendado_ate: 2026-06-14T23:59:59-03:00
+# Mapeamento role → path consumido pelo CLI (collect_artifacts_evidence) e
+# referenciado por cada criterio.args.role abaixo. Fonte única — não duplicar
+# em código.
+artefatos:
+  - role: meta_prompt
+    path: A_meta_prompt.md
+  - role: assistente_v1
+    path: B_relatorio_assistente_v1.md
+  - role: assistente_v2
+    path: B_relatorio_assistente_v2.md
+  - role: assistente_v3
+    path: B_relatorio_assistente_v3.md
+  - role: auditoria_v1
+    path: B_relatorio_auditoria_v1.md
+  - role: auditoria_v2
+    path: B_relatorio_auditoria_v2.md
+  - role: grill_transcript
+    path: C_grill_transcript.md
+  - role: actor_map
+    path: C_mapa_atores.md
 criterios:
   # === Parte A — Meta-prompt (20 pts) ===
   # A_existe é gating: zero peso, mas se falhar o judge nem é chamado
