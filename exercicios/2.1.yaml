@@ -22,10 +22,7 @@ criterios:
       role: meta_prompt
       sub_criterios:
         - "Escopo explícito de UM serviço público concreto e nomeado — qual serviço, qual canal de atendimento, qual órgão — sem ambiguidade (NÃO precisa ser a URA/Caixa: qualquer serviço público que o aluno domine)"
-        - "Pede TIPOLOGIA explícita dos atores (papéis, categorias, posição no fluxo) — não fica em 'liste atores' genérico (ex.: cidadãos na ponta, operadores, decisores, órgãos de controle, intermediários, fornecedores)"
-        - "Define horizonte temporal datado (estado atual ou projeção)"
-        - "Especifica formato de saída estruturado (tabela, JSON, ou seções nomeadas)"
-        - "Exige critérios de fonte verificáveis (URLs, docs oficiais, papers; rejeita blogs sem autoria)"
+
 
   # === Parte B — Auditoria iterativa (40 pts) ===
   # Fluxo: assistente_v1 → auditoria_v1 → assistente_v2 → auditoria_v2 → assistente_v3
@@ -55,31 +52,31 @@ criterios:
     check: evidence.artifacts.word_count_min
     args:
       role: assistente_v1
-      min: 800
+      min: 300
   - id: B4_palavras_v2
     peso: 2
     check: evidence.artifacts.word_count_min
     args:
       role: assistente_v2
-      min: 800
+      min: 300
   - id: B5_palavras_v3
     peso: 2
     check: evidence.artifacts.word_count_min
     args:
       role: assistente_v3
-      min: 800
+      min: 300
   - id: B6_palavras_audit_v1
     peso: 2
     check: evidence.artifacts.word_count_min
     args:
       role: auditoria_v1
-      min: 800
+      min: 300
   - id: B7_palavras_audit_v2
     peso: 2
     check: evidence.artifacts.word_count_min
     args:
       role: auditoria_v2
-      min: 800
+      min: 300
   - id: B8_urls_v1
     peso: 2
     check: evidence.artifacts.links_min

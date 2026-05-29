@@ -12,7 +12,7 @@
 > Você **pode** mantê-lo **ou escolher outro serviço público** que conheça
 > melhor (ex.: emissão de passaporte, agendamento no SUS, matrícula na rede
 > pública, licenciamento de veículo, CadÚnico). Se trocar, **todos os exemplos
-> abaixo — meta-prompt, transcript, mapa, diagramas mermaid — passam a ser
+> abaixo — meta-prompt, transcript, mapa, di  agramas mermaid — passam a ser
 > ILUSTRATIVOS**: adapte-os ao seu serviço. A rubrica avalia se você **definiu
 > um serviço público concreto e nomeado** (qual serviço, qual canal, qual
 > órgão) e identificou tipologia clara dos atores (papéis, categorias) — **não** qual serviço você
@@ -30,10 +30,9 @@ auditores, fornecedores de tecnologia, órgãos de controle — e sistemas
 automatizados na retaguarda. **Mapear quem está ali e o papel de cada um**
 é o trabalho.
 
-Você vai mapear essa jornada usando três técnicas complementares — uma de
-**síntese inicial** (deep research em um assistente), uma de **verificação
-adversária** (segundo assistente confronta o primeiro), e uma de **destilação
-interativa** (sessão `/grill-me` no Claude Code que força você a decidir).
+Você vai mapear os atores desse serviço usando três técnicas complementares — uma de **meta-prompt**, deep research adversarial, e uma de **destilação interativa** (sessão `/grill-me` no Claude Code ou outro agente de codificacao).
+
+**Atenção**: num contexto real, você entrevistaria os stakeholders para descobrir seus interesses e descobrir outros stakeholders. A IA não resolve o problema de falta de contexto.
 
 ## 2. Objetivos de aprendizagem
 
@@ -79,70 +78,32 @@ exercício automaticamente.
 
 ### Parte A — Meta-prompt (≈ 30 min)
 
-**O que é um meta-prompt:** um prompt que instrui o assistente *como* fazer a
-pesquisa antes de pedir a resposta. Define escopo, profundidade, formato de
-saída, fontes aceitáveis. É a diferença entre "me fala sobre a URA da Caixa"
-(prompt) e "Você é um pesquisador de serviço público. Investigue X com
-profundidade Y, retornando no formato Z, citando fontes do tipo W" (meta-prompt).
+**O que é um meta-prompt:** um prompt que instrui o assistente a elaborar um prompt por você.
+Prompts mais detalhados com contexto, persona, critério de sucesso e outros detalhes tendem a gerar resultados mais satisfatorios. Tente contar seu problema e não definir uma tarefa de escopo fechado. No exercício em questão, queremos coletar dados para subsidiar uma tarefa posterior. Queremos coletar um contexto para que o assistente de IA na proxima tarefa (grill-me) não fique com pouco contexto. Se possível, anexe a este pedido de elaboração de prompt algum contexto que voce já tenha sobre o serviço que vai analisar. Solicite ao assistente de IA para "elaborar um prompt para um assistente de deep research realizar uma pesquisa".
 
 **Passo a passo:**
 
-1. **Abra o assistente 1** (recomendo Gemini com Deep Research ativado ou
-   ChatGPT em modo Deep Research, se sua conta tiver).
-2. **Não envie nada ainda.** Antes, num editor de texto, rascunhe o
-   meta-prompt cobrindo *no mínimo*:
-   - **Persona** do assistente (ex: "pesquisador de operações de serviço
-     público com 10 anos em call center governamental").
-   - **Escopo** explícito: serviço = Atendimento ao Seguro-Desemprego;
-     canal = URA telefônica da Caixa Econômica Federal; jornada = do
-     momento em que o cidadão liga até a resolução ou encaminhamento.
-   - **Atores a mapear com TIPOLOGIA explícita** — peça classificação por
-     papel/categoria (cidadão na ponta, operadores, decisores, órgãos de
-     controle, intermediários, fornecedores, sistemas de retaguarda quando
-     aplicável). Se você só pedir "atores", o assistente lista 4 pessoas
-     óbvias e para.
-   - **Horizonte temporal:** estado atual (2024–2026), ou inclui projeção?
-   - **Formato de saída:** tabela markdown com colunas
-     `[ator, categoria/papel, posição na jornada, ponto de entrada, ponto de saída, evidência/fonte]`.
-   - **Critérios de fonte:** documentos oficiais (gov.br, Caixa, MTE), relatos
-     do TCU/CGU, papers acadêmicos, jornalismo investigativo. Recusar blogs
-     sem autoria e o próprio chatbot do site.
-3. **Salve** o meta-prompt em `A_meta_prompt.md`. Esse é o entregável de A —
+1. **Abra o assistente 1**: recomendo Gemini, Claude ou ChatGPT com Deep Research ativado.
+2. **Escreva seu meta-prompt:** Descreva o problema, o objetivo, anexe algum contexto e solicite que  seja elaborado um prompt.
+3. **Salve:** o meta-prompt em `A_meta_prompt.md`. Esse é o entregável de A —
    não o resultado dele.
-4. **Envie** o meta-prompt para o assistente 1 e guarde a resposta inteira
-   (você vai usar em B).
 
 ### Parte B — Auditoria iterativa (≈ 90 min)
 
-A ideia: **a resposta de um único assistente é uma hipótese, não um fato.**
-Em vez de você sintetizar duas respostas conflitantes, você **orquestra**
-um diálogo entre dois assistentes: um **pesquisa**, o outro **audita**, e
-a pesquisa é corrigida iterativamente pelas auditorias. Seu papel é
-**orquestrar** (copiar conteúdo entre as janelas, mandar prompts de
-auditoria e de correção) — **não escrever uma síntese**.
 
 **Pipeline (5 arquivos):**
 
 ```
-v1 → audit_v1 → v2 → audit_v2 → v3
+B1.1 v1 → B1.2 audit_v1 → B1.3 v2 → B1.4 audit_v2 → B1.4 v3
 ```
 
 **Pré-requisito:** o meta-prompt de A está pronto e o assistente 1 já
-respondeu à execução inicial.
+respondeu com seu prompt.
 
 **Passo a passo:**
 
-1. **Salve `B_relatorio_assistente_v1.md`** — copie a resposta integral do
-   assistente 1 com cabeçalho:
-
-   ```markdown
-   # Relatório — Assistente v1
-
-   - **Ferramenta:** Gemini 2.x Deep Research
-   - **Data:** 2026-MM-DD
-   - **Meta-prompt usado:** ver `A_meta_prompt.md`
-   - **Link da conversa (se exportável):** ...
-   ```
+B1.1 **Pesquisa Inicial** — copie o prompt de `A_meta_prompt.md` e cole no chat do assistente 1 (a sua escolha: Ex.: Gemini, Claude, ChatGPT).
+   
 
 2. **Peça uma AUDITORIA no assistente 2** (modelo *diferente* — ChatGPT,
    Claude.ai, etc.; **não** outra sessão do mesmo modelo). Use este prompt:
