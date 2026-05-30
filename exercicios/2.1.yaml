@@ -42,6 +42,7 @@ criterios:
       role: meta_prompt
       sub_criterios:
         - "Escopo explícito de UM serviço público concreto e nomeado — qual serviço, qual canal de atendimento, qual órgão — sem ambiguidade (NÃO precisa ser a URA/Caixa: qualquer serviço público que o aluno domine)"
+        - "Prompt estruturado com pelo menos 3 subseções distintas (ex.: contexto, instruções, formato de saída, critérios de fonte) — não fica em parágrafo único corrido"
 
 
   # === Parte B — Auditoria iterativa (40 pts) ===
@@ -125,11 +126,10 @@ criterios:
       role_audit: auditoria_v1
   - id: B12_v3_evolucao_pos_audit_v2
     peso: 6
-    check: judge.artifacts.iteration_substantive_evolution
+    check: judge.artifacts.iteration_addresses_audit
     args:
-      role_after: assistente_v3
-      role_before: assistente_v2
-      role_trigger: auditoria_v2
+      role_iteration: assistente_v3
+      role_audit: auditoria_v2
 
   # === Parte C — Mapa via grill-me (40 pts) ===
   - id: C1_rodadas
