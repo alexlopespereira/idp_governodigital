@@ -52,7 +52,7 @@ criterios:
   # pelo aluno. O papel do aluno em B é ORQUESTRAR (prompts + cópia entre
   # janelas), não sintetizar.
 
-  # --- Determinístico (20 pts) ---
+  # --- Determinístico (16 pts) ---
   - id: B1_iteracoes_distintas
     peso: 4
     check: evidence.artifacts.distinct_reports
@@ -98,34 +98,21 @@ criterios:
     args:
       role: auditoria_v2
       min: 300
-  - id: B8_urls_v1
-    peso: 2
-    check: evidence.artifacts.links_min
-    args:
-      role: assistente_v1
-      min: 3
-  - id: B9_urls_v3
-    peso: 2
-    check: evidence.artifacts.links_min
-    args:
-      role: assistente_v3
-      min: 3
-
-  # --- LLM-judge (20 pts) ---
+  # --- LLM-judge (24 pts) ---
   - id: B10_audit_v1_substantiva
-    peso: 8
+    peso: 10
     check: judge.artifacts.audit_finds_real_issues
     args:
       role_audit: auditoria_v1
       role_audited: assistente_v1
   - id: B11_v2_aborda_audit_v1
-    peso: 6
+    peso: 7
     check: judge.artifacts.iteration_addresses_audit
     args:
       role_iteration: assistente_v2
       role_audit: auditoria_v1
   - id: B12_v3_evolucao_pos_audit_v2
-    peso: 6
+    peso: 7
     check: judge.artifacts.iteration_addresses_audit
     args:
       role_iteration: assistente_v3

@@ -56,12 +56,12 @@ raiz (nomes e capitalização importam — o autograder valida path-a-path):
 | Arquivo | Conteúdo | Tamanho mínimo |
 |---|---|---|
 | `A_meta_prompt.md` | O meta-prompt que você usou na parte A | ≥ 200 palavras |
-| `B_relatorio_assistente_v1.md` | Pesquisa original do **assistente 1** (ex: Gemini Deep Research) | ≥ 800 palavras, ≥ 3 URLs |
-| `B_relatorio_auditoria_v1.md` | Auditoria da v1 pelo **assistente 2** (ex: ChatGPT, Claude.ai) | ≥ 800 palavras |
-| `B_relatorio_assistente_v2.md` | Correção/revisão do **assistente 1** baseada na auditoria_v1 | ≥ 800 palavras |
-| `B_relatorio_auditoria_v2.md` | Segunda auditoria da v2 pelo **assistente 2** | ≥ 800 palavras |
-| `B_relatorio_assistente_v3.md` | Versão final do **assistente 1** após audit_v2 | ≥ 800 palavras, ≥ 3 URLs |
-| `C_grill_transcript.md` | Cópia integral da sessão `/grill-me` | ≥ 8 rodadas |
+| `B_relatorio_assistente_v1.md` | Pesquisa original do **assistente 1** (ex: Gemini Deep Research) | ≥ 300 palavras |
+| `B_relatorio_auditoria_v1.md` | Auditoria da v1 pelo **assistente 2** (ex: ChatGPT, Claude.ai) | ≥ 300 palavras |
+| `B_relatorio_assistente_v2.md` | Correção/revisão do **assistente 1** baseada na auditoria_v1 | ≥ 300 palavras |
+| `B_relatorio_auditoria_v2.md` | Segunda auditoria da v2 pelo **assistente 2** | ≥ 300 palavras |
+| `B_relatorio_assistente_v3.md` | Versão final do **assistente 1** após audit_v2 | ≥ 300 palavras |
+| `C_grill_transcript.md` | Cópia integral da sessão `/grill-me` | ≥ 6 rodadas |
 | `C_mapa_atores.md` | Mapa final de atores (tabela RACI **ou** diagrama mermaid) | ≥ 7 atores distintos |
 
 > **Nomes idênticos aos da tabela.** O coletor é `path-strict` — `a_meta_prompt.md`
@@ -128,7 +128,7 @@ B1.1 **Pesquisa Inicial** — copie o prompt de `A_meta_prompt.md` e cole no cha
    ```
 
    Cole a resposta integral em `B_relatorio_auditoria_v1.md`. Mínimo
-   **800 palavras** (auditoria substantiva, não one-liner).
+   **100 palavras** (auditoria substantiva, não one-liner).
 
 3. **Volte ao assistente 1** com a auditoria. Prompt:
 
@@ -147,7 +147,7 @@ B1.1 **Pesquisa Inicial** — copie o prompt de `A_meta_prompt.md` e cole no cha
    """
    ```
 
-   Cole a v2 em `B_relatorio_assistente_v2.md`. Mínimo **800 palavras**.
+   Cole a v2 em `B_relatorio_assistente_v2.md`. Mínimo **300 palavras**.
 
 4. **Segunda auditoria no assistente 2** sobre a v2:
 
@@ -166,23 +166,18 @@ B1.1 **Pesquisa Inicial** — copie o prompt de `A_meta_prompt.md` e cole no cha
    """
    ```
 
-   Cole em `B_relatorio_auditoria_v2.md`. Mínimo **800 palavras**.
+   Cole em `B_relatorio_auditoria_v2.md`. Mínimo **100 palavras**.
 
 5. **Volte ao assistente 1** para a versão final:
 
    ```
-   Última iteração. Segue a segunda auditoria. Produza uma v3 que aborde
-   os pontos restantes do audit_v2. Para CADA delta da v3 em relação à
-   v2, CITE o ponto específico do audit_v2 que motivou a mudança
-   (gatilho concreto). Evite reescrita cosmética.
+   Segue a segunda auditoria. Produza uma v3 que aborde
+   os pontos restantes do audit_v2. 
 
-   AUDITORIA v2:
-   """
-   [colar audit_v2 aqui]
-   """
+   Segue em anexo a auditoria.
    ```
 
-   Cole em `B_relatorio_assistente_v3.md`. Mínimo **800 palavras**.
+   Cole em `B_relatorio_assistente_v3.md`. Mínimo **300 palavras**.
 
 **Critérios não-negociáveis (a rubrica zera se faltar):**
 
@@ -208,22 +203,13 @@ você usa para destilar B em um mapa decidido.
    no diretório onde estão `A_*`, `B_*`).
 2. **Inicie o Claude Code:** `claude` (assumindo que a CLI já está instalada
    e autenticada — pré-requisito do exercício 1.x).
-3. **Cole o seguinte prompt** (não invente uma variação; o autograder espera
-   esta estrutura no transcript):
-
+3. **Cole um prompt igual ou semelhante a esse**:
+Substitua <RELATORIO V3> pelo seu relatorio.
    ```
    /grill-me
 
    Quero produzir um mapa de atores da jornada "Atendimento ao
-   Seguro-Desemprego pela URA da Caixa". Eu já fiz uma chain de auditoria
-   iterativa entre dois assistentes (v1 → audit_v1 → v2 → audit_v2 → v3 em
-   B_relatorio_assistente_v{1,2,3}.md + B_relatorio_auditoria_v{1,2}.md;
-   a v3 é a versão consolidada). Quero que você me entreviste, uma
-   pergunta por vez, até eu ter clareza sobre:
-     - quais atores são reais vs. inferidos
-     - onde cada ator entra e sai da jornada
-     - como categorizar cada um (papel, posição no fluxo, tipo de organização)
-     - quais relações entre eles importam para o mapa final
+   Seguro-Desemprego pela URA da Caixa". Considere como contexto o artefato @<RELATORIO V3>. Siga a metodologia do @<PDF da aula2>
    ```
 
 4. **Responda cada pergunta** — não pule, não responda "tanto faz", não peça
@@ -270,8 +256,8 @@ você usa para destilar B em um mapa decidido.
 ## 5. Validação local e submissão
 
 ```bash
-# 1. Garanta que está no diretório raiz do repo do exercício
-cd ~/projetos/idp-2026/exercicio-2.1
+# 1. Garanta que está no diretório raiz do repo do exercício (adapte ao seu diretorio)
+cd ~/exercicio-2.1
 
 # 2. Verifique os arquivos
 ls A_*.md B_*.md C_*.md .autograde-exercise
@@ -285,74 +271,14 @@ O `autograde validar` vai:
 2. Ler os 8 arquivos e calcular evidência local (existência, palavras, URLs,
    sha256, headings).
 3. Enviar `artifacts_evidence` + `repo_url` ao backend.
-4. Backend roda **checks determinísticos** (20 pts, todos em B) +
-   **LLM-as-judge** sobre o conteúdo (80 pts: A=20, B=20, C=40) contra a
+4. Backend roda **checks determinísticos** (16 pts, todos em B) +
+   **LLM-as-judge** sobre o conteúdo (84 pts: A=20, B=24, C=40) contra a
    rubrica abaixo.
 5. Mostra boletim. Se aceitar, digite `s` para submeter.
 
 > Limite de previews por dia: 10. Use com critério.
 
 ---
-
-## 6. Rubrica de avaliação (total: 100 pts)
-
-> **Fonte canônica:** a versão autoritativa da rubrica vive em
-> [`exercicios/2.1.yaml`](https://github.com/alexlopespereira/idp_governodigital/blob/main/exercicios/2.1.yaml).
-> Leia esse arquivo antes de submeter — é exatamente o que o backend usa para
-> calcular sua nota. Cada `id` da tabela abaixo (`A_meta_prompt_quality`,
-> `B1_relatorios_distintos`, `C2_C3_C5_mapa_qualidade`, etc.) bate com um
-> `criterios[].id` do YAML, e o campo `args` lá mostra os parâmetros exatos
-> (palavras mínimas, número de URLs, sub-critérios passados ao LLM judge).
-> Se a tabela aqui e o YAML divergirem, **o YAML manda** — esta seção é
-> didática, aquele arquivo é o contrato.
-
-A rubrica é fechada — o LLM judge no backend recebe a rubrica + cada artefato
-e devolve `{criterio_id: {score, evidence_quote, missing}}`. A `evidence_quote`
-aparece no boletim para você entender de onde veio a nota.
-
-### Parte A — Meta-prompt (20 pts)
-
-| ID | Critério | Pts | Como é checado |
-|---|---|---|---|
-| A1 | **Escopo explícito do serviço** — nomeia UM serviço público concreto (qual serviço, qual canal, qual órgão) sem ambiguidade; não precisa ser a URA/Caixa | 4 | judge: leitura semântica |
-| A2 | **Tipologia explícita dos atores pedida** — não fica em "liste atores"; pede papéis/categorias (cidadãos, operadores, decisores, controle, fornecedores, etc.) | 4 | judge: leitura semântica |
-| A3 | **Horizonte temporal definido** — estado atual ou projeção, com janela datada | 4 | judge: leitura semântica |
-| A4 | **Formato de saída estruturado** — tabela/JSON/seções nomeadas, não prosa livre | 4 | judge: leitura + presença de marcadores |
-| A5 | **Critérios de fonte verificáveis** — exige URLs, documentos oficiais, ou rejeição de fontes fracas | 4 | judge: leitura semântica |
-
-### Parte B — Auditoria iterativa (40 pts)
-
-| ID | Critério | Pts | Como é checado |
-|---|---|---|---|
-| B1 | **Três iterações distintas** — `v1`, `v2`, `v3` com sha256 + primeiros 500 chars distintos (sem echo entre versões) | 4 | determinístico |
-| B2 | **Duas auditorias distintas** — `audit_v1` ≠ `audit_v2` (segunda auditoria real, não cópia) | 2 | determinístico |
-| B3 | `assistente_v1` ≥ 800 palavras | 2 | determinístico (`word_count`) |
-| B4 | `assistente_v2` ≥ 800 palavras | 2 | determinístico |
-| B5 | `assistente_v3` ≥ 800 palavras | 2 | determinístico |
-| B6 | `auditoria_v1` ≥ 800 palavras | 2 | determinístico |
-| B7 | `auditoria_v2` ≥ 800 palavras | 2 | determinístico |
-| B8 | `assistente_v1` ≥ 3 URLs externas distintas | 2 | determinístico (`links`) |
-| B9 | `assistente_v3` ≥ 3 URLs externas distintas | 2 | determinístico |
-| B10 | **`audit_v1` aponta ≥ 1 falha REAL** em `v1` (factual, lacuna de evidência, inferência mal-suportada, fonte fraca, ator omitido) — não cosmética | 8 | judge com rubrica explícita |
-| B11 | **`v2` ABORDA as falhas da `audit_v1`** — cada falha recebe (a) correção, (b) defesa com argumento, ou (c) marcação "em aberto"; ignorar = zero | 6 | judge |
-| B12 | **`v3` evolui substantivamente sobre `v2`** pelo gatilho da `audit_v2` (delta concreto + gatilho citado da auditoria); "refleti melhor" = zero | 6 | judge |
-
-### Parte C — Mapa via grill-me (40 pts)
-
-| ID | Critério | Pts | Como é checado |
-|---|---|---|---|
-| C1 | **Transcript com ≥ 8 rodadas Q&A** distinguíveis | 8 | determinístico (regex Q/A) + judge para qualidade |
-| C2 | **Consistência transcript ↔ mapa** — todos atores do mapa aparecem em respostas do transcript | 8 | judge (cross-reference) |
-| C3 | **≥ 7 atores distintos no mapa** | 10 | judge + determinístico (contagem linhas tabela) |
-| C4 | **Relações entre atores explícitas** — RACI ou setas mermaid, não lista solta | 8 | judge (formato) + determinístico (detecção `\|...\|` ou `flowchart`) |
-| C5 | **Decisões do grill citadas no mapa** — pelo menos 2 escolhas do transcript justificam categorização | 6 | judge |
-
-### Penalidades
-
-- Cópia entre alunos detectada via sha256 dos arquivos: **−100% no item afetado**.
-- Auditoria cosmética (B10 = 0): tende a derrubar também B11 e B12 (não há
-  falhas reais para v2 abordar nem gatilhos para v3 evoluir).
-- Atraso: regras-padrão do autograder (perda diária definida no backend).
 
 ---
 
@@ -362,12 +288,10 @@ Antes de submeter, confirme:
 
 - [ ] `autograde validar 2.1` roda sem erro de schema (todos os 8 arquivos
       `exists=True` no payload).
-- [ ] Cada `assistente_v{1,2,3}` tem ≥ 800 palavras
+- [ ] Cada `assistente_v{1,2,3}` tem ≥ 300 palavras
       (`wc -w B_relatorio_assistente_v*.md`).
-- [ ] Cada `auditoria_v{1,2}` tem ≥ 800 palavras
+- [ ] Cada `auditoria_v{1,2}` tem ≥ 300 palavras
       (`wc -w B_relatorio_auditoria_v*.md`).
-- [ ] `assistente_v1` e `assistente_v3` têm ≥ 3 URLs distintos
-      (`grep -oE 'https?://[^[:space:]]+' B_relatorio_assistente_v1.md B_relatorio_assistente_v3.md | sort -u`).
 - [ ] As 3 iterações de assistente são distintas (não cópia de v1 com
       mudança trivial) e as 2 auditorias também (`audit_v2` não copia
       `audit_v1`).
@@ -378,7 +302,7 @@ Antes de submeter, confirme:
       Ignorar = zero em B11.
 - [ ] `v3` cita gatilhos da `audit_v2` em cada delta sobre `v2`.
       "Refleti melhor" sem gatilho = zero em B12.
-- [ ] `C_grill_transcript.md` tem pelo menos 8 marcadores de rodada
+- [ ] `C_grill_transcript.md` tem pelo menos 6 marcadores de rodada
       (formato livre, contanto que dê pra contar).
 - [ ] Todo ator de `C_mapa_atores.md` aparece nominalmente em
       `C_grill_transcript.md`.
