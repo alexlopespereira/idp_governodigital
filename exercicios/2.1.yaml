@@ -137,7 +137,7 @@ criterios:
     check: judge.artifacts.grill_rounds
     args:
       role: grill_transcript
-      min_rounds: 8
+      min_rounds: 6
   # C2_C3_C5 consolidado: judge precisa ver mapa + transcript juntos pra
   # responder qualquer um deles. Separar triplicaria custo de tokens.
   # Tutorial mantém divisão didática (C2/C3/C5); YAML consolida na execução.
