@@ -2,7 +2,7 @@ exercicio: "1.3"
 titulo: "Agente cria repositório e clona"
 turmas:
   - TD-2026-01
-disponivel_a_partir_de: 2026-05-13T08:00:00-03:00
+disponivel_a_partir_de: 2026-05-01T00:00:00-03:00
 prazo:
   recomendado_ate: 2026-05-31T23:59:59-03:00
 # Comandos shell que o CLI executa e que o backend valida (string equality).

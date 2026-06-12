@@ -2,7 +2,7 @@ exercicio: "2.1"
 titulo: "Mapa de Atores da Jornada de um Serviço Público (serviço à escolha do aluno)"
 turmas:
   - TD-2026-01
-disponivel_a_partir_de: 2026-05-17T00:00:00-03:00
+disponivel_a_partir_de: 2026-05-01T00:00:00-03:00
 prazo:
   recomendado_ate: 2026-06-14T23:59:59-03:00
 # Mapeamento role → path consumido pelo CLI (collect_artifacts_evidence) e
