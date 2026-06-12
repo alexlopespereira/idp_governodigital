@@ -2,7 +2,7 @@ exercicio: "3.1"
 titulo: "Service Blueprint AS-IS de um Serviço Público via deep research adversarial + grill-me (serviço à escolha do aluno)"
 turmas:
   - TD-2026-01
-disponivel_a_partir_de: 2026-06-16T00:00:00-03:00
+disponivel_a_partir_de: 2026-06-10T00:00:00-03:00
 prazo:
   recomendado_ate: 2026-07-05T23:59:59-03:00
 # Mapeamento role → path consumido pelo CLI (collect_artifacts_evidence) e
