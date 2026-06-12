@@ -3,7 +3,7 @@
 > **Disciplina:** IDP-TD 2026 · **Peso:** 100 pontos · **Tempo estimado:** 3–5h
 > **Pré-requisitos:** exercícios 1.1–1.4 concluídos; conta em pelo menos
 > **dois** assistentes de IA conversacionais (ChatGPT / Gemini / Claude.ai) e
-> Claude Code instalado localmente com a skill `grill-me`.
+> agente (Claude Code, codex, et) instalado localmente com a skill `grill-me`.
 
 ---
 
@@ -32,7 +32,10 @@ automatizados na retaguarda. **Mapear quem está ali e o papel de cada um**
 
 Você vai mapear os atores desse serviço usando três técnicas complementares — uma de **meta-prompt**, deep research adversarial, e uma de **destilação interativa** (sessão `/grill-me` no Claude Code ou outro agente de codificacao).
 
-**Atenção**: num contexto real, você entrevistaria os stakeholders para descobrir seus interesses e descobrir outros stakeholders. A IA não resolve o problema de falta de contexto.
+Você vai mapear os atores sando três técnicas complementares — uma de
+**síntese inicial** (deep research em um assistente), uma de **verificação
+adversária** (segundo assistente confronta o primeiro), e uma de **destilação
+interativa** (sessão `/grill-me` no Claude Code ou outro agente de IA que força você a decidir).
 
 ## 2. Objetivos de aprendizagem
 
@@ -42,9 +45,7 @@ Ao final, você será capaz de:
   de IA (não apenas perguntas avulsas).
 - **Operar pesquisa adversária** — usar um segundo assistente para refutar e
   triangular o primeiro, em vez de tratar uma única resposta como verdade.
-- **Identificar atores frequentemente esquecidos** em mapas tradicionais —
-  intermediários, órgãos de controle, fornecedores, sistemas de retaguarda
-  (a maioria dos mapas para nos óbvios da linha de frente).
+- **Identificar atores** em um serviço público.
 - **Iterar com `/grill-me`** para converter material bruto em um artefato
   decidido — não uma colagem.
 
