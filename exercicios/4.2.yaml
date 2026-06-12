@@ -2,9 +2,9 @@ exercicio: "4.2"
 titulo: "MCP server local para a aplicação de TODO list — consome a API do 4.1 (avaliado por execução real)"
 turmas:
   - TD-2026-01
-disponivel_a_partir_de: 2026-06-23T08:00:00-03:00
+disponivel_a_partir_de: 2026-01-01T00:00:00-03:00
 prazo:
-  recomendado_ate: 2026-07-07T23:59:59-03:00
+  recomendado_ate: 2026-06-28T23:59:59-03:00
 
 # ===========================================================================
 # Avaliação por EXECUÇÃO REAL via shell — pré-requisito: a API do 4.1 rodando
