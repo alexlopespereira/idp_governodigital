@@ -1,0 +1,97 @@
+exercicio: "4.2"
+titulo: "MCP server local para a aplicação de TODO list — consome a API do 4.1 (avaliado por execução real)"
+turmas:
+  - TD-2026-01
+disponivel_a_partir_de: 2026-06-23T08:00:00-03:00
+prazo:
+  recomendado_ate: 2026-07-07T23:59:59-03:00
+
+# ===========================================================================
+# Avaliação por EXECUÇÃO REAL via shell — pré-requisito: a API do 4.1 rodando
+# em http://localhost:8000.
+#
+# O aluno constrói um MCP server local (`servidor_mcp.py`) que expõe tools que
+# chamam a API REST do exercício 4.1, e um cliente de teste (`cliente_teste.py`)
+# que: (1) sobe o server via stdio, (2) lista as tools, (3) chama
+# `criar_tarefa("tarefa via mcp")`, (4) chama `listar_tarefas()`, e imprime no
+# stdout UM envelope JSON consolidado:
+#
+#   {
+#     "tools": ["criar_tarefa", "listar_tarefas"],
+#     "criar_resultado": {"id": <int>, "titulo": "tarefa via mcp", "concluida": false},
+#     "listar_resultado": [ { ...tarefas... } ]
+#   }
+#
+# `autograde validar 4.2` roda `python cliente_teste.py` (extract=mcp_test),
+# captura esse envelope e o backend valida os campos. Chaves com ponto
+# (ex.: criar_resultado.titulo) são caminhos aninhados no JSON.
+#
+# Contrato completo + esqueletos de código: tutorial_4.2.md e o handoff em
+# autograde-idp/docs/handoff-exercicio-4.2.md.
+# ===========================================================================
+comandos_shell:
+  - ["python", "cliente_teste.py"]
+
+criterios:
+  # === Estrutura no GitHub (cross-check, 35 pts) =========================
+  - id: repo_publico
+    peso: 5
+    check: github.repo.public
+  - id: tem_servidor_mcp
+    peso: 8
+    check: github.repo.file_not_empty
+    args:
+      path: servidor_mcp.py
+  - id: tem_cliente_teste
+    peso: 7
+    check: github.repo.file_not_empty
+    args:
+      path: cliente_teste.py
+  - id: tem_requirements
+    peso: 5
+    check: github.repo.file_not_empty
+    args:
+      path: requirements.txt
+  - id: tem_readme
+    peso: 2
+    check: github.repo.has_file
+    args:
+      path: README.md
+  - id: commits_min
+    peso: 4
+    check: github.commits.count_at_least
+    args:
+      n: 3
+  - id: pr_descritivo
+    peso: 4
+    check: github.pr.has_descriptive_title
+    args:
+      min_chars: 12
+
+  # === Execução real do MCP server (corretude, 65 pts) ==================
+  - id: tools_expostos
+    peso: 20
+    check: evidence.shell.json_list_includes
+    args:
+      extract: mcp_test
+      field: tools
+      includes:
+        - criar_tarefa
+        - listar_tarefas
+  - id: tool_criar_chama_api
+    peso: 30
+    check: evidence.shell.http_json_match
+    args:
+      extract: mcp_test
+      equals:
+        criar_resultado.titulo: "tarefa via mcp"
+        criar_resultado.concluida: false
+      present:
+        - criar_resultado.id
+  - id: tool_listar_chama_api
+    peso: 15
+    check: evidence.shell.json_list_min_len
+    args:
+      extract: mcp_test
+      field: listar_resultado
+      min: 1

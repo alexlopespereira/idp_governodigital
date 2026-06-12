@@ -1,0 +1,111 @@
+exercicio: "4.1"
+titulo: "API REST de uma aplicação de TODO list (POST/GET/PUT) — avaliada por execução real"
+turmas:
+  - TD-2026-01
+disponivel_a_partir_de: 2026-06-16T08:00:00-03:00
+prazo:
+  recomendado_ate: 2026-06-30T23:59:59-03:00
+
+# ===========================================================================
+# Avaliação por EXECUÇÃO REAL via shell.
+#
+# O aluno sobe a própria API em http://localhost:8000 (store em memória, zera
+# ao reiniciar) e roda `autograde validar 4.1`. O CLI executa os comandos
+# abaixo NA MÁQUINA do aluno, captura o stdout de cada um e envia ao backend,
+# que valida o corpo JSON da resposta por campo (não por igualdade bruta de
+# string, para tolerar espaçamento/ordem de chaves).
+#
+# Cada comando é rotulado por um `extract` (definido no CLI, em
+# autograde_idp/evidence/shell.py::commands_for_exercise) e referenciado por
+# `args.extract` nos critérios. Os inputs são FIXOS: como o store começa
+# vazio, o primeiro POST cria a tarefa de id=1, tornando GET/PUT
+# determinísticos.
+#
+#   extract       comando                                                  → resposta esperada
+#   ---------     ------------------------------------------------------   -----------------------------------
+#   health        curl -s localhost:8000/health                            {"status":"ok"}
+#   post_tarefa   curl -s -X POST localhost:8000/tarefas -d '{titulo}'      {"id":1,"titulo":"estudar APIs","concluida":false}
+#   get_tarefa    curl -s localhost:8000/tarefas/1                         {"id":1,"titulo":"estudar APIs","concluida":false}
+#   put_tarefa    curl -s -X PUT localhost:8000/tarefas/1 -d '{...}'        {"id":1,"titulo":"estudar APIs REST","concluida":true}
+#
+# Contrato textual completo da API + whitelist exata: tutorial_4.1.md e o
+# handoff em autograde-idp/docs/handoff-exercicio-4.1.md.
+# ===========================================================================
+comandos_shell:
+  - ["curl", "-s", "http://localhost:8000/health"]
+  - ["curl", "-s", "-X", "POST", "http://localhost:8000/tarefas",
+     "-H", "Content-Type: application/json", "-d", "{\"titulo\":\"estudar APIs\"}"]
+  - ["curl", "-s", "http://localhost:8000/tarefas/1"]
+  - ["curl", "-s", "-X", "PUT", "http://localhost:8000/tarefas/1",
+     "-H", "Content-Type: application/json",
+     "-d", "{\"titulo\":\"estudar APIs REST\",\"concluida\":true}"]
+
+criterios:
+  # === Estrutura no GitHub (cross-check, 30 pts) =========================
+  # Prova que o código existe e é público — contrapeso à evidência de shell,
+  # que é coletada na máquina do aluno (ver "Forjabilidade" no handoff).
+  - id: repo_publico
+    peso: 5
+    check: github.repo.public
+  - id: tem_app_main
+    peso: 6
+    check: github.repo.file_not_empty
+    args:
+      path: app/main.py
+  - id: tem_requirements
+    peso: 5
+    check: github.repo.file_not_empty
+    args:
+      path: requirements.txt
+  - id: tem_readme
+    peso: 2
+    check: github.repo.has_file
+    args:
+      path: README.md
+  - id: commits_min
+    peso: 6
+    check: github.commits.count_at_least
+    args:
+      n: 3
+  - id: pr_descritivo
+    peso: 6
+    check: github.pr.has_descriptive_title
+    args:
+      min_chars: 12
+
+  # === Execução real da API (corretude, 70 pts) =========================
+  - id: api_no_ar
+    peso: 5
+    check: evidence.shell.http_json_match
+    args:
+      extract: health
+      equals:
+        status: ok
+  - id: post_cria_tarefa
+    peso: 25
+    check: evidence.shell.http_json_match
+    args:
+      extract: post_tarefa
+      equals:
+        titulo: "estudar APIs"
+        concluida: false
+      present:
+        - id
+  - id: get_devolve_tarefa
+    peso: 15
+    check: evidence.shell.http_json_match
+    args:
+      extract: get_tarefa
+      equals:
+        id: 1
+        titulo: "estudar APIs"
+        concluida: false
+  - id: put_atualiza_tarefa
+    peso: 25
+    check: evidence.shell.http_json_match
+    args:
+      extract: put_tarefa
+      equals:
+        id: 1
+        titulo: "estudar APIs REST"
+        concluida: true
