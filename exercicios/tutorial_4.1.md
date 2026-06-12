@@ -91,7 +91,7 @@ fastapi
 uvicorn
 ```
 
-### Esqueleto de `app/main.py` (ponto de partida — você completa)
+### Esqueleto de `app/main.py` (ponto de partida — você completa, ou pede para a IA completar)
 
 ```python
 from fastapi import FastAPI, HTTPException
@@ -157,6 +157,11 @@ curl -s http://localhost:8000/tarefas/1
 ---
 
 ## 6. Como o autograder avalia (execução real)
+
+> **⚠ Atualize o `autograde` antes de validar.** Exercícios novos podem exigir a
+> versão mais recente do CLI. Se você **já** tinha o `autograde` instalado, rode
+> `git pull && pip install -e .` no seu clone do `autograde-idp` antes de validar
+> (instalação nova já vem atualizada).
 
 Com a API rodando em `localhost:8000`, num **outro terminal** dentro do repo:
 
@@ -234,3 +239,7 @@ o valor de um contrato: ele é verificável.
 > Continuação natural: no **Exercício 4.2** você vai pôr um **MCP server** na
 > frente desta API, para que um agente de IA consiga criar e listar tarefas
 > sem nunca falar HTTP diretamente.
+
+
+## (Opcional - Nao vale nota) Por curiosidade, peça para o agente de IA codificar uma interface web que usa a API
+Você vai ficar orgulhoso do que acabou de construir

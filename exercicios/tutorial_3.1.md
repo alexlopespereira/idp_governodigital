@@ -286,6 +286,11 @@ flowchart LR
 
 ## 5. Validação local e submissão
 
+> **⚠ Atualize o `autograde` antes de validar.** Exercícios novos podem exigir a
+> versão mais recente do CLI. Se você **já** tinha o `autograde` instalado, rode
+> `git pull && pip install -e .` no seu clone do `autograde-idp` antes de validar
+> (instalação nova já vem atualizada).
+
 ```bash
 # 1. Garanta que está no diretório raiz do repo do exercício (adapte ao seu)
 cd ~/exercicio-3.1
