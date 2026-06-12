@@ -2,7 +2,7 @@ exercicio: "4.1"
 titulo: "API REST de uma aplicação de TODO list (POST/GET/PUT) — avaliada por execução real"
 turmas:
   - TD-2026-01
-disponivel_a_partir_de: 2026-06-16T08:00:00-03:00
+disponivel_a_partir_de: 2026-06-09T08:00:00-03:00
 prazo:
   recomendado_ate: 2026-06-30T23:59:59-03:00
 
