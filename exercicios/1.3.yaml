@@ -2,9 +2,15 @@ exercicio: "1.3"
 titulo: "Agente cria repositório e clona"
 turmas:
   - TD-2026-01
-disponivel_a_partir_de: 2026-05-13T08:00:00-03:00
+disponivel_a_partir_de: 2026-05-01T00:00:00-03:00
 prazo:
-  recomendado_ate: 2026-05-20T23:59:59-03:00
+  recomendado_ate: 2026-05-31T23:59:59-03:00
+# Comandos shell que o CLI executa e que o backend valida (string equality).
+# Placeholder {owner_repo} é substituído pelo CLI a partir do repo_url.
+comandos_shell:
+  - ["gh", "--version"]
+  - ["gh", "auth", "status"]
+  - ["gh", "repo", "view", "{owner_repo}", "--json", "visibility,name,isPrivate"]
 criterios:
   - id: repo_existe
     peso: 20
