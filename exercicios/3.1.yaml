@@ -1,0 +1,147 @@
+exercicio: "3.1"
+titulo: "Service Blueprint AS-IS de um Serviço Público via deep research adversarial + grill-me (serviço à escolha do aluno)"
+turmas:
+  - TD-2026-01
+disponivel_a_partir_de: 2026-06-16T00:00:00-03:00
+prazo:
+  recomendado_ate: 2026-07-05T23:59:59-03:00
+# Mapeamento role → path consumido pelo CLI (collect_artifacts_evidence) e
+# referenciado por cada criterio.args.role abaixo. Fonte única — não duplicar
+# em código. Estrutura A/B/C/D do enunciado (aula05.md §3.1), continuação do
+# 2.1: meta-prompt (A) → deep research adversarial entre 2 assistentes (B) →
+# grill-me destila um Service Blueprint AS-IS (C) → diagrama da Parte C (D).
+artefatos:
+  - role: meta_prompt
+    path: A_meta_prompt.md
+  - role: assistente_v1
+    path: B_relatorio_assistente_v1.md
+  - role: assistente_v2
+    path: B_relatorio_assistente_v2.md
+  - role: assistente_v3
+    path: B_relatorio_assistente_v3.md
+  - role: auditoria_v1
+    path: B_relatorio_auditoria_v1.md
+  - role: auditoria_v2
+    path: B_relatorio_auditoria_v2.md
+  - role: grill_transcript
+    path: C_grill_transcript.md
+  - role: blueprint_asis
+    path: C_blueprint_asis.md
+  - role: diagrama_asis
+    path: D_diagrama_asis.md
+criterios:
+  # === Parte A — Meta-prompt (20 pts) ===
+  # A_existe é gating: zero peso, mas mensagem clara no boletim se ausente.
+  - id: A_existe
+    peso: 0
+    check: evidence.artifacts.exists
+    args:
+      role: meta_prompt
+  - id: A_meta_prompt_quality
+    peso: 20
+    check: judge.artifacts.meta_prompt_quality
+    args:
+      role: meta_prompt
+      sub_criterios:
+        - "Escopo explícito de UM serviço público concreto e nomeado — qual serviço, qual canal de atendimento, qual órgão — sem ambiguidade (idealmente o MESMO serviço do exercício 2.1, mas pode ser outro que o aluno domine)"
+        - "Pede pesquisa estruturada que sustente um Service Blueprint AS-IS: etapas da jornada na ótica do cidadão, processos de bastidor (backstage), evidências físicas, normativos aplicáveis e fail points/gargalos conhecidos — não só a visão de quem usa a linha de frente"
+
+  # === Parte B — Deep research adversarial da operação (40 pts) ===
+  # Fluxo idêntico ao 2.1: assistente_v1 → auditoria_v1 → assistente_v2 →
+  # auditoria_v2 → assistente_v3. O CONTEÚDO é como o serviço opera hoje —
+  # matéria-prima do blueprint AS-IS da Parte C. O aluno ORQUESTRA (prompts +
+  # cópia entre janelas de 2 assistentes DIFERENTES).
+
+  # --- Determinístico (16 pts) ---
+  - id: B1_iteracoes_distintas
+    peso: 4
+    check: evidence.artifacts.distinct_reports
+    args:
+      roles:
+        - assistente_v1
+        - assistente_v2
+        - assistente_v3
+  - id: B2_auditorias_distintas
+    peso: 2
+    check: evidence.artifacts.distinct_reports
+    args:
+      roles:
+        - auditoria_v1
+        - auditoria_v2
+  - id: B3_palavras_v1
+    peso: 2
+    check: evidence.artifacts.word_count_min
+    args:
+      role: assistente_v1
+      min: 300
+  - id: B4_palavras_v2
+    peso: 2
+    check: evidence.artifacts.word_count_min
+    args:
+      role: assistente_v2
+      min: 300
+  - id: B5_palavras_v3
+    peso: 2
+    check: evidence.artifacts.word_count_min
+    args:
+      role: assistente_v3
+      min: 300
+  - id: B6_palavras_audit_v1
+    peso: 2
+    check: evidence.artifacts.word_count_min
+    args:
+      role: auditoria_v1
+      min: 300
+  - id: B7_palavras_audit_v2
+    peso: 2
+    check: evidence.artifacts.word_count_min
+    args:
+      role: auditoria_v2
+      min: 300
+  # --- LLM-judge (24 pts) ---
+  - id: B10_audit_v1_substantiva
+    peso: 10
+    check: judge.artifacts.audit_finds_real_issues
+    args:
+      role_audit: auditoria_v1
+      role_audited: assistente_v1
+  - id: B11_v2_aborda_audit_v1
+    peso: 7
+    check: judge.artifacts.iteration_addresses_audit
+    args:
+      role_iteration: assistente_v2
+      role_audit: auditoria_v1
+  - id: B12_v3_evolucao_pos_audit_v2
+    peso: 7
+    check: judge.artifacts.iteration_addresses_audit
+    args:
+      role_iteration: assistente_v3
+      role_audit: auditoria_v2
+
+  # === Parte C — Blueprint AS-IS via grill-me (28 pts) ===
+  - id: C1_rodadas
+    peso: 8
+    check: judge.artifacts.grill_rounds
+    args:
+      role: grill_transcript
+      min_rounds: 6
+  # C2 — Blueprint AS-IS: camadas (swim lanes) + jornada na ótica do cidadão +
+  # fail points + consistência com o transcript. O judge recebe blueprint +
+  # transcript concatenados.
+  - id: C2_blueprint_asis_qualidade
+    peso: 20
+    check: judge.artifacts.blueprint_quality
+    args:
+      role_map: blueprint_asis
+      role_transcript: grill_transcript
+      min_steps: 5
+
+  # === Parte D — Diagrama da jornada (12 pts) ===
+  # Diagrama derivado da Parte C: precisa ter RELAÇÕES explícitas entre etapas/
+  # atores (mermaid com setas, RACI, ou prosa estruturada de handoffs) — não
+  # lista solta. Reusa relations_explicit.
+  - id: D_diagrama_relacoes
+    peso: 12
+    check: judge.artifacts.relations_explicit
+    args:
+      role: diagrama_asis
