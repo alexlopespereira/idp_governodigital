@@ -20,7 +20,7 @@ Agente / LLM ──MCP──▶ servidor_mcp.py ──HTTP──▶ API 4.1
 - [servidor_mcp.py](servidor_mcp.py) — MCP server com as tools `criar_tarefa` e `listar_tarefas`
 - [cliente_teste.py](cliente_teste.py) — sobe o server via stdio, exercita as tools e imprime o envelope JSON
 - [requirements.txt](requirements.txt) — `mcp`, `httpx`
-- [`.autograde-exercise`](.autograde-exercise) — marcador do autograder (conteúdo: `4.2`)
+- [`.autograde-exercise`](.autograde-exercise) — um arquivo com esse nome e o conteúdo: `4.2`
 
 ## Tools expostas
 
