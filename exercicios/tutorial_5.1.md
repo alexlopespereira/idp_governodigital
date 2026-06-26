@@ -86,28 +86,44 @@ Exemplo de prompt para a **tarefa 3**:
 
 ## 5. Preparar o repositório
 
+> 🔁 **Atenção: este exercício funciona diferente dos anteriores.** Até agora você
+> produzia **artefatos textuais** (arquivos, código, documentos) dentro do
+> repositório e usava o `autograde` apenas para **sinalizar que terminou**. Aqui
+> **não há artefato para produzir.** O próprio `autograde` é a **interface de
+> resolução**: você resolve o exercício digitando seus prompts dentro do comando
+> `autograde validar 5.1`. O repositório serve só de "porta de entrada".
+
+Por isso, basta um **repositório vazio**:
+
 ```bash
-# crie um repositório público (pode ser pelo site do GitHub) e clone-o
+# 1. crie um repositório público vazio (pode ser pelo site do GitHub) e clone-o
+# 2. entre na pasta do repositório clonado
 echo "5.1" > .autograde-exercise
-# copie o README modelo (README_modelo_5.1.md) para README.md e preencha seu nome
 git add . && git commit -m "exercicio 5.1" && git push
 ```
 
-O repositório precisa **existir e ser público** (cross-check de 10 pts). O resto
-da nota (90 pts) vem dos prompts.
+O repositório precisa apenas **existir e ser público** (cross-check de 10 pts).
+Você **não** precisa criar README, código ou qualquer outro arquivo — toda a sua
+nota de conteúdo (90 pts) vem dos **prompts que você digita no autograde**, não
+de arquivos commitados.
 
-## 6. Validar
+## 6. Validar — é aqui que você resolve o exercício
 
-De dentro do repositório:
+De dentro do repositório vazio, rode:
 
 ```bash
 autograde validar 5.1
 ```
 
-Responda cada tarefa com o seu prompt. O boletim mostra, por tarefa, se o
-resultado bateu e **qual SQL** o LLM gerou a partir do seu prompt — compare com o
-que você queria; é assim que se aprende a refinar o prompt. Você pode validar
-várias vezes (respeitando o limite diário).
+O comando vai **pedir, uma por uma, as 5 tarefas**, e você responde cada tarefa
+**digitando o seu prompt ali mesmo, no terminal**. É esse o trabalho do
+exercício: não há nada para escrever em arquivo nem para commitar além do passo
+acima.
+
+O boletim mostra, por tarefa, se o resultado bateu e **qual SQL** o LLM gerou a
+partir do seu prompt — compare com o que você queria; é assim que se aprende a
+refinar o prompt. Você pode rodar `autograde validar 5.1` quantas vezes quiser
+(respeitando o limite diário), refinando os prompts a cada rodada.
 
 ## 7. Observações
 
