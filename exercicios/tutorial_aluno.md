@@ -79,8 +79,10 @@ gh pr merge --squash --delete-branch
 **Autograde** (validação e submissão):
 ```
 autograde --version
+autograde doctor
 autograde login
 autograde whoami
+autograde perfil
 autograde validar <id>
 autograde validar <id> --auto-submit
 autograde notas
@@ -103,6 +105,19 @@ echo "texto" >> arquivo.md
 
 ### Checklist antes de começar
 
+Depois de instalar a CLI (Parte 1.4), **um comando checa tudo isso de uma vez**:
+
+```bash
+autograde doctor
+```
+
+Ele verifica Python, git, identidade do git, `gh`, `gh auth`, sua sessão, seu
+email/turma no roster, seu `github_username` e — se você estiver dentro de um
+repo — se ele é seu e se está público. Cada item que falha vem com o comando
+exato que conserta.
+
+Equivalente manual, item por item:
+
 - [ ] `python --version` (ou `python3 --version`) retorna 3.9+
 - [ ] `git --version` retorna uma versão
 - [ ] `git config --global user.name` e `user.email` configurados
@@ -110,6 +125,7 @@ echo "texto" >> arquivo.md
 - [ ] `gh auth status` mostra você logado no `github.com`
 - [ ] `autograde --version` retorna uma versão
 - [ ] `autograde whoami` mostra seu email institucional e turma corretos
+- [ ] `autograde perfil` mostra um `github_username` preenchido — não `(não cadastrado)`
 - [ ] (a partir do 1.3) um agente de codificação instalado e acessível no terminal
 
 Se algum item falhar, vá para a Parte 1 correspondente e configure antes de tentar qualquer exercício.
@@ -220,7 +236,49 @@ autograde login
 A CLI mostra um código tipo `ABCD-1234` e uma URL (`google.com/device`). Abra a URL **em qualquer aparelho** (celular conta), digite o código, autorize com seu email.
 
 
-### 1.6 Confirmar identidade
+### 1.6 Cadastrar seu usuário do GitHub
+
+```bash
+autograde perfil
+```
+
+**Este passo não é opcional.** O roster guarda o seu `github_username`, e é com ele que
+o autograder confirma que o repositório mandado para avaliação é **seu**. Enquanto essa
+célula estiver vazia, todo exercício que pede repositório recusa a submissão com
+`403 repo_owner_mismatch` — um erro que não diz "falta cadastrar" e custa caro descobrir
+sozinho.
+
+O comando começa mostrando o que está gravado hoje:
+
+```
+Seu cadastro no roster:
+  email  : ana.silva@aluno.idp.edu.br
+  nome   : Ana Silva
+  turma  : TD-2026-01
+  github : (não cadastrado)
+```
+
+Se aparecer `(não cadastrado)`, ele pergunta e grava:
+
+```
+Seu github_username está vazio — sem ele o autograder não
+consegue confirmar que o repositório do exercício é seu.
+Seu username do GitHub (sem @): anasilva
+Confirmar 'anasilva'? [s/N]: s
+Pronto: github=anasilva
+```
+
+Use o username **da mesma conta com que você fez `gh auth login`**. Se os dois não
+baterem, os critérios `gh_*` não pontuam. Confira com `gh auth status`.
+
+**Só dá para preencher uma vez.** Se o campo já estiver preenchido, a planilha recusa
+sobrescrever — é isso que impede um aluno cravar o username de outro. Se estiver errado,
+peça a correção ao professor dizendo qual é o username certo; pela CLI não sai.
+
+Num terminal não interativo (script, CI) o comando não pergunta nada e avisa para você
+rodar num terminal normal.
+
+### 1.7 Confirmar identidade
 
 ```bash
 autograde whoami
@@ -235,6 +293,12 @@ turma: TD-2026-01
 ```
 
 Se aparecer **`erro: email não está no roster`** → fale com o professor. Você não está na planilha da turma; o backend bloqueia qualquer submissão.
+
+Para reconferir o ambiente inteiro de uma vez — e não só a identidade — rode
+`autograde doctor`: ele repassa todos os itens do checklist, inclusive se o seu
+`github_username` está preenchido, e imprime o comando exato que conserta cada item que
+falhar. É o primeiro comando a rodar quando algo der errado, antes de procurar o
+professor.
 
 ---
 
@@ -590,6 +654,8 @@ A pergunta de reflexão pede que você explique o papel do `gh pr create` e do `
 | `autograde validar <id> --auto-submit` | Pula o prompt |
 | `autograde notas` | Lista suas notas por exercício (melhor nota + nº de tentativas) |
 | `autograde whoami` | Email autenticado + turma |
+| `autograde perfil` | Mostra seu cadastro no roster e grava o `github_username` se estiver vazio |
+| `autograde doctor` | Diagnostica o ambiente inteiro e diz o comando que conserta cada falha |
 | `autograde login` | Re-autenticar (se token expirou) |
 | `autograde --version` | Versão + plataforma |
 
@@ -674,6 +740,11 @@ Sim para 1.1 e 1.2. Para o futuro **exercício 3** (evidência IA), use **WSL2**
 
 **P: Posso ver minhas notas em algum lugar?**
 `autograde notas`. Lê direto da planilha do professor.
+
+**P: Errei meu username do GitHub no cadastro. Como corrijo?**
+Rode `autograde perfil` para ver o que está gravado. Se estiver vazio, o próprio
+comando preenche. Se já estiver preenchido, só o professor corrige — a planilha
+recusa sobrescrever, o que impede um aluno cravar o username de outro.
 
 **P: Onde fica meu token?**
 `~/.git-exercicios/token.json`. Em Unix, chmod 0600 (só você lê). Em Windows, ACL do user.
