@@ -5,6 +5,11 @@ turmas:
 disponivel_a_partir_de: 2026-05-01T00:00:00-03:00
 prazo:
   recomendado_ate: 2026-06-28T23:59:59-03:00
+# O repositorio E o objeto de aprendizado deste exercicio, entao ele declara
+# a excecao: o default do campo e `false` (o aluno nao precisa versionar a
+# solucao e nao ganha ponto por versionar). Sem esta linha, o parser recusa o
+# YAML por causa dos criterios `github.*` abaixo.
+requer_repositorio: true
 
 # ===========================================================================
 # Avaliação por EXECUÇÃO REAL via shell — pré-requisito: a API do 4.1 rodando
