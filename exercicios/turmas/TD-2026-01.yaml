@@ -1,0 +1,38 @@
+# Calendario da turma TD-2026-01 (Transformacao Digital).
+#
+# Esta e a fonte da matricula E do cronograma: estar listado em `exercicios:`
+# abaixo e o que matricula a turma no exercicio. O YAML do exercicio nao
+# decide mais data nenhuma — ele e so conteudo pedagogico.
+#
+# ATENCAO: os ids de TD sao numeros ("1.1", "2.1") e PRECISAM de aspas. Sem
+# elas o YAML le `1.1` como float e o calendario inteiro e recusado — o que
+# chega ao aluno como 502, nao como erro de arquivo. Os ids de IA levam
+# prefixo (`ia-1.1`) e nao tem esse problema.
+#
+# Entrada vazia herda `padrao:`; para prazo diferente, abra a chave e declare
+# so o campo que muda. `abre` bloqueia a submissao; `fecha` so marca `late`.
+#
+# As datas abaixo sao as que ja estavam nos YAMLs dos exercicios — este
+# arquivo so muda ONDE elas moram, nao QUAIS sao.
+
+turma: TD-2026-01
+
+padrao:
+  abre:  2026-05-01T00:00:00-03:00
+  fecha: 2026-05-31T23:59:59-03:00
+
+exercicios:
+  "1.1":
+  "1.2":
+  "1.3":
+  "1.4":
+  "2.1":
+    fecha: 2026-06-14T23:59:59-03:00
+  "3.1":
+    fecha: 2026-07-05T23:59:59-03:00
+  "4.1":
+    fecha: 2026-06-28T23:59:59-03:00
+  "4.2":
+    fecha: 2026-06-28T23:59:59-03:00
+  "5.1":
+    fecha: 2026-06-28T23:59:59-03:00
